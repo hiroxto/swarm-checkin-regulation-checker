@@ -3,6 +3,7 @@ import Head from 'next/head'
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {CheckinItem, Response} from '../types/foursquare'
+import Footer from "../components/footer";
 
 const Home: NextPage = () => {
   const ENDPOINT = 'https://api.foursquare.com/v2/users/self/checkins';
@@ -88,9 +89,7 @@ const Home: NextPage = () => {
         </div>
       </main>
 
-      <footer>
-        Developed by hiroxto
-      </footer>
+      <Footer/>
     </div>
   )
 }
