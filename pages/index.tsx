@@ -36,27 +36,56 @@ const Home: NextPage = () => {
   }, [token, checkins]);
 
   return (
-    <div>
+    <div className="bg-white py-12 px-10">
       <Head>
         <title>Swarm コイン規制チェッカー</title>
         <meta name="description" content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール" />
       </Head>
 
       <main>
-        <h1>
-          Swarm コイン規制チェッカー
-        </h1>
+        <div className="mb-5">
+          <h1 className="text-4xl font-semibold text-indigo-600">
+            Swarm コイン規制チェッカー
+          </h1>
 
-        <p>
-          Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
-        </p>
+          <p>
+            Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
+          </p>
+        </div>
 
-        <input type="text" placeholder="Oauth token" onChange={event => setToken(event.target.value)}>
-        </input>
+        <div className="mb-5">
+          <h2 className="text-3xl font-semibold text-indigo-600">
+            設定
+          </h2>
+          <p className="mb-2">
+            チェックイン履歴を取得するためにAPIトークンが必要です。
+          </p>
 
-        <button onClick={getCheckins}>
-          規制状況を確認する
-        </button>
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+            APIトークン
+          </label>
+          <div className="relative mt-1 rounded-md shadow-sm">
+            <input
+              onChange={event => setToken(event.target.value)}
+              type="text"
+              name="oauth-token"
+              className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
+              placeholder="Token"
+            />
+          </div>
+
+          <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+            <div className="rounded-md">
+              <button
+                onClick={getCheckins}
+                disabled={token === ""}
+                className="flex justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+              >
+                規制状況を確認する
+              </button>
+            </div>
+          </div>
+        </div>
       </main>
 
       <footer>
