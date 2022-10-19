@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {CheckinItem, Response} from '../types/foursquare'
@@ -37,18 +36,18 @@ const Home: NextPage = () => {
   }, [token, checkins]);
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Swarm コイン規制チェッカー</title>
         <meta name="description" content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <main>
+        <h1>
           Swarm コイン規制チェッカー
         </h1>
 
-        <p className={styles.description}>
+        <p>
           Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
         </p>
 
@@ -60,7 +59,7 @@ const Home: NextPage = () => {
         </button>
       </main>
 
-      <footer className={styles.footer}>
+      <footer>
         Developed by hiroxto
       </footer>
     </div>
