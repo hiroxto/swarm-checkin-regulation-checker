@@ -9,9 +9,9 @@ export class Check2min {
   /**
    * チェックインの上限
    */
-  readonly LIMIT = 5;
+  readonly CHECKIN_LIMIT = 5;
 
-  constructor(protected checkins: CheckinItem[], protected now: Date) {
+  constructor(private checkins: CheckinItem[], private now: Date) {
   }
 
   /**
@@ -42,6 +42,6 @@ export class Check2min {
    * @private
    */
   private isLimited(checkinsCount: number): boolean {
-    return checkinsCount >= this.LIMIT;
+    return checkinsCount >= this.CHECKIN_LIMIT;
   }
 }

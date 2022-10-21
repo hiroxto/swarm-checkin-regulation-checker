@@ -9,13 +9,13 @@ export class Check15min {
   /**
    * チェックインの上限
    */
-  readonly LIMIT = 8;
+  readonly CHECKIN_LIMIT = 8;
 
   constructor(private checkins: CheckinItem[], private now: Date) {
   }
 
   /**
-   * 15分間に5回のチェックインが行われているかをチェックする
+   * 15分間に8回のチェックインが行われているかをチェックする
    */
   check(): LimitCheckResult {
     const min15ago = dayjs(this.now).add(-15, "minute");
@@ -42,6 +42,6 @@ export class Check15min {
    * @private
    */
   private isLimited(checkinsCount: number): boolean {
-    return checkinsCount >= this.LIMIT;
+    return checkinsCount >= this.CHECKIN_LIMIT;
   }
 }
