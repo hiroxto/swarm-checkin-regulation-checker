@@ -48,14 +48,14 @@ const Home: NextPage = () => {
   }, [token, checkins]);
 
   const notLimitedIcon = <CheckIcon className="h-6 w-6" aria-hidden="true" />
-  const limitedIcon = <ExclamationTriangleIcon className="h-6 w-6" aria-hidden="true" />
+  const limitedIcon = <ExclamationTriangleIcon className="h-6 w-6 text-red-300" aria-hidden="true" />
 
   let resultContents;
   if (limitCheckResult === null) {
     resultContents = <div></div>
   } else {
     resultContents = (
-      <div className="mt-10">
+      <div className="mt-10 mb-5">
         <h2 className="text-3xl font-semibold text-indigo-600">
           規制状況
         </h2>
@@ -74,7 +74,9 @@ const Home: NextPage = () => {
                   { result.title } : {result.isLimited ? "規制中" : "規制されていません"}
                 </p>
               </dt>
-              <dd className="mt-2 ml-16 text-base text-gray-500">aa</dd>
+              <dd className="mt-2 ml-16 text-base text-gray-500">
+                対象チェックイン回数: { result.checkinsCount }
+              </dd>
             </div>
           ))}
         </dl>
