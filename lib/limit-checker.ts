@@ -3,7 +3,7 @@ import {LimitCheckResult} from "../types/app";
 import {Check2min} from "./check-2min";
 import {Check15min} from "./check-15min";
 import {Check1day} from "./check-1day";
-import {Check3day} from "./check-day3";
+import {Check3day} from "./check-3day";
 
 export class LimitChecker {
   constructor(private checkins: CheckinItem[]) {
