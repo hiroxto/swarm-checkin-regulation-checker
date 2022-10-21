@@ -19,14 +19,7 @@ export class Check1day {
    */
   check(): LimitCheckResult {
     const day1ago = dayjs(this.now).add(-1, "day");
-    const matchCheckins: CheckinItem[] = [];
-
-    this.checkins.forEach(checkin => {
-      const isAfter = dayjs(checkin.createdAt * 1000).isAfter(day1ago);
-      if (isAfter) {
-        matchCheckins.push(checkin)
-      }
-    })
+    const matchCheckins: CheckinItem[] = this.checkins.filter(checkin => dayjs(checkin.createdAt * 1000).isAfter(day1ago));
 
     return {
       checkins: matchCheckins,

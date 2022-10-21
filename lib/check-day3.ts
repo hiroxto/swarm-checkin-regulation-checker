@@ -19,14 +19,7 @@ export class Check3day {
    */
   check(): LimitCheckResult {
     const day3ago = dayjs(this.now).add(-3, "days");
-    const matchCheckins: CheckinItem[] = [];
-
-    this.checkins.forEach(checkin => {
-      const isAfter = dayjs(checkin.createdAt * 1000).isAfter(day3ago);
-      if (isAfter) {
-        matchCheckins.push(checkin)
-      }
-    })
+    const matchCheckins: CheckinItem[] = this.checkins.filter(checkin => dayjs(checkin.createdAt * 1000).isAfter(day3ago));
 
     return {
       checkins: matchCheckins,

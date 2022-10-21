@@ -19,14 +19,7 @@ export class Check15min {
    */
   check(): LimitCheckResult {
     const min15ago = dayjs(this.now).add(-15, "minute");
-    const matchCheckins: CheckinItem[] = [];
-
-    this.checkins.forEach(checkin => {
-      const isAfter = dayjs(checkin.createdAt * 1000).isAfter(min15ago);
-      if (isAfter) {
-        matchCheckins.push(checkin)
-      }
-    });
+    const matchCheckins: CheckinItem[] = this.checkins.filter(checkin => dayjs(checkin.createdAt * 1000).isAfter(min15ago));
 
     return {
       checkins: matchCheckins,
