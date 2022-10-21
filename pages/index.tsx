@@ -4,13 +4,14 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {CheckinItem, Response} from '../types/foursquare'
 import Footer from "../components/footer";
+import { LimitChecker } from "../lib/limit-checker";
 
 const Home: NextPage = () => {
   const ENDPOINT = 'https://api.foursquare.com/v2/users/self/checkins';
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
 
-  const getCheckins = () => {
+  const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
       oauth_token: token,
       limit: 100,
@@ -18,18 +19,25 @@ const Home: NextPage = () => {
       lang: 'ja',
     }
 
-    axios.get<Response>(ENDPOINT, { params })
+    return axios.get<Response>(ENDPOINT, { params })
       .then(response => {
         if (response.status !== 200) {
           throw new Error("APIコールでエラー");
         }
 
-        setCheckins(response.data.response.checkins.items)
-        return response.data
+        return response.data.response.checkins.items;
       })
       .catch(e => {
         console.log(e);
       })
+  }
+
+  const checkLimits = async () => {
+    const checkins = await getCheckins();
+    setCheckins(checkins);
+    const checker = new LimitChecker(checkins)
+    const results = checker.check();
+    console.log({results});
   }
 
   useEffect(() => {
@@ -78,7 +86,7 @@ const Home: NextPage = () => {
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
             <div className="rounded-md">
               <button
-                onClick={getCheckins}
+                onClick={checkLimits}
                 disabled={token === ""}
                 className="flex justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
               >
