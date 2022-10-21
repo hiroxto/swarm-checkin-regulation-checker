@@ -6,6 +6,7 @@ import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { LimitChecker } from "../lib/limit-checker";
 import {AllLimitCheckResult} from "../types/app";
+import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 const Home: NextPage = () => {
   const ENDPOINT = 'https://api.foursquare.com/v2/users/self/checkins';
@@ -46,18 +47,28 @@ const Home: NextPage = () => {
     console.log(checkins)
   }, [token, checkins]);
 
+  const notLimitedIcon = <CheckIcon className="h-6 w-6" aria-hidden="true" />
+  const limitedIcon = <ExclamationTriangleIcon className="h-6 w-6" aria-hidden="true" />
+
   let resultContents;
   if (limitCheckResult === null) {
     resultContents = <div></div>
   } else {
     resultContents = (
       <div className="mt-10">
+        <h2 className="text-3xl font-semibold text-indigo-600">
+          規制状況
+        </h2>
+        <p className="mb-2">
+          { limitCheckResult.isLimited ? "規制されています" : "規制されていません" }
+        </p>
+
         <dl className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
-          {limitCheckResult.results.map((result) => (
-            <div key="a" className="relative">
+          {limitCheckResult.results.map((result, index) => (
+            <div key={index} className="relative">
               <dt>
                 <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
-                  {/*<feature.icon className="h-6 w-6" aria-hidden="true" />*/}
+                  { limitCheckResult?.isLimited ? limitedIcon : notLimitedIcon }
                 </div>
                 <p className="ml-16 text-lg font-medium leading-6 text-gray-900">{result.isLimited ? "規制中" : "規制されていません"}</p>
               </dt>
