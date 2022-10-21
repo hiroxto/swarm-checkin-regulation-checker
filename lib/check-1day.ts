@@ -22,7 +22,7 @@ export class Check1day {
     const matchCheckins: CheckinItem[] = [];
 
     this.checkins.forEach(checkin => {
-      const isAfter = dayjs(checkin.createdAt).isAfter(day1ago);
+      const isAfter = dayjs(checkin.createdAt * 1000).isAfter(day1ago);
       if (isAfter) {
         matchCheckins.push(checkin)
       }
