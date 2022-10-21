@@ -7,7 +7,8 @@ export class LimitChecker {
   }
 
   check (): LimitCheckResult[] {
-    const check2min = new Check2min(this.checkins)
+    const now = new Date();
+    const check2min = new Check2min(this.checkins, now)
     console.log(check2min.check())
 
     return [

@@ -1,11 +1,47 @@
 import {LimitCheckResult} from "../types/app";
 import {CheckinItem} from "../types/foursquare";
+import dayjs from "dayjs";
 
+/**
+ * 2分間に5回でのチェックイン規制を確認するクラス
+ */
 export class Check2min {
-  constructor(protected checkins: CheckinItem[]) {
+  /**
+   * チェックインの上限
+   */
+  readonly LIMIT = 5;
+
+  constructor(protected checkins: CheckinItem[], protected now: Date) {
   }
 
+  /**
+   * 2分間に5回のチェックインが行われているかをチェックする
+   */
   check(): LimitCheckResult {
-    return {checkinCount: 0, description: "", limited: false}
+    const min2ago = dayjs(this.now).add(-2, "minute");
+    const matchCheckins: CheckinItem[] = [];
+
+    this.checkins.forEach(checkin => {
+      const isAfter = dayjs(checkin.createdAt).isAfter(min2ago);
+      if (isAfter) {
+        matchCheckins.push(checkin)
+      }
+    })
+
+    return {
+      checkins: matchCheckins,
+      checkinsCount: matchCheckins.length,
+      isLimited: this.isLimited(matchCheckins.length),
+    }
+  }
+
+  /**
+   * 与えたチェックイン数が規制上限に引っ掛かっているかを確認する
+   *
+   * @param checkinsCount
+   * @private
+   */
+  private isLimited(checkinsCount: number): boolean {
+    return checkinsCount >= this.LIMIT;
   }
 }

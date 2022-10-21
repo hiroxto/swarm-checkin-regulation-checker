@@ -1,5 +1,10 @@
+import {CheckinItem} from "./foursquare";
+
+/**
+ * 規制の確認結果のオブジェクト
+ */
 export interface LimitCheckResult {
-  description: string
-  checkinCount: number
-  limited: boolean
+  checkins: CheckinItem[]
+  checkinsCount: number
+  isLimited: boolean
 }

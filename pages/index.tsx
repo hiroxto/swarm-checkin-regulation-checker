@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {CheckinItem, Response} from '../types/foursquare'
+import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { LimitChecker } from "../lib/limit-checker";
 
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       lang: 'ja',
     }
 
-    return axios.get<Response>(ENDPOINT, { params })
+    return axios.get(ENDPOINT, { params })
       .then(response => {
         if (response.status !== 200) {
           throw new Error("APIコールでエラー");
