@@ -5,11 +5,13 @@ import {useEffect, useState} from "react";
 import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { LimitChecker } from "../lib/limit-checker";
+import {AllLimitCheckResult} from "../types/app";
 
 const Home: NextPage = () => {
   const ENDPOINT = 'https://api.foursquare.com/v2/users/self/checkins';
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
+  const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -36,13 +38,36 @@ const Home: NextPage = () => {
     const checkins = await getCheckins();
     setCheckins(checkins);
     const checker = new LimitChecker(checkins)
-    const results = checker.check();
-    console.log(results);
+    const result = checker.check();
+    setLimitCheckResult(result)
   }
 
   useEffect(() => {
     console.log(checkins)
   }, [token, checkins]);
+
+  let resultContents;
+  if (limitCheckResult === null) {
+    resultContents = <div></div>
+  } else {
+    resultContents = (
+      <div className="mt-10">
+        <dl className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
+          {limitCheckResult.results.map((result) => (
+            <div key="a" className="relative">
+              <dt>
+                <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
+                  {/*<feature.icon className="h-6 w-6" aria-hidden="true" />*/}
+                </div>
+                <p className="ml-16 text-lg font-medium leading-6 text-gray-900">{result.isLimited ? "規制中" : "規制されていません"}</p>
+              </dt>
+              <dd className="mt-2 ml-16 text-base text-gray-500">aa</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-white py-12 px-10">
@@ -95,6 +120,8 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
+
+        { resultContents }
       </main>
 
       <Footer/>
