@@ -7,6 +7,11 @@ import dayjs from "dayjs";
  */
 export class Check1day {
   /**
+   * チェックイン規制の名称
+   */
+  readonly TITLE = "1日(24時間)に50回のチェックイン";
+
+  /**
    * チェックインの上限
    */
   readonly CHECKIN_LIMIT = 50;
@@ -22,6 +27,7 @@ export class Check1day {
     const matchCheckins: CheckinItem[] = this.checkins.filter(checkin => dayjs(checkin.createdAt * 1000).isAfter(day1ago));
 
     return {
+      title: this.TITLE,
       checkins: matchCheckins,
       checkinsCount: matchCheckins.length,
       isLimited: this.isLimited(matchCheckins.length),

@@ -68,9 +68,11 @@ const Home: NextPage = () => {
             <div key={index} className="relative">
               <dt>
                 <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
-                  { limitCheckResult?.isLimited ? limitedIcon : notLimitedIcon }
+                  { result.isLimited ? limitedIcon : notLimitedIcon }
                 </div>
-                <p className="ml-16 text-lg font-medium leading-6 text-gray-900">{result.isLimited ? "規制中" : "規制されていません"}</p>
+                <p className="ml-16 text-lg font-medium leading-6 text-gray-900">
+                  { result.title } : {result.isLimited ? "規制中" : "規制されていません"}
+                </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">aa</dd>
             </div>
