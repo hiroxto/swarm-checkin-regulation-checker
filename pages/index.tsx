@@ -37,7 +37,7 @@ const Home: NextPage = () => {
     setCheckins(checkins);
     const checker = new LimitChecker(checkins)
     const results = checker.check();
-    console.log({results});
+    console.log(results);
   }
 
   useEffect(() => {
