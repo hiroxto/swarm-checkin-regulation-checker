@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
       oauth_token: token,
-      limit: 100,
+      limit: 200,
       v: '20221016',
       lang: 'ja',
     }
