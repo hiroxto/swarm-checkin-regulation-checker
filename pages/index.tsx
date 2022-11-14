@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import axios from "axios";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { LimitChecker } from "../lib/limit-checker";
@@ -9,11 +9,14 @@ import {AllLimitCheckResult} from "../types/app";
 import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"
+import { useRouter } from "next/router";
 dayjs.extend(timezone)
 dayjs.extend(require('dayjs/plugin/utc'))
 
 const Home: NextPage = () => {
   const ENDPOINT = 'https://api.foursquare.com/v2/users/self/checkins';
+  const router = useRouter()
+  const setViaQuery = useRef(false);
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
@@ -48,8 +51,17 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    console.log(checkins)
-  }, [token, checkins]);
+    if (!router.isReady) {
+      return
+    }
+
+    if (!setViaQuery.current && router.query?.token) {
+      setToken(String(router.query.token));
+      setViaQuery.current = true
+    }
+
+    console.log(checkins);
+  }, [router, token, checkins]);
 
   const notLimitedIcon = <CheckIcon className="h-6 w-6" aria-hidden="true" />
   const limitedIcon = <ExclamationTriangleIcon className="h-6 w-6 text-red-300" aria-hidden="true" />
@@ -167,6 +179,7 @@ const Home: NextPage = () => {
           </label>
           <div className="relative mt-1 rounded-md shadow-sm">
             <input
+              value={token}
               onChange={event => setToken(event.target.value)}
               type="text"
               name="oauth-token"
