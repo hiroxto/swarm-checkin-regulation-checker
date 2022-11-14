@@ -19,7 +19,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-node_modules
         with:
@@ -31,7 +31,7 @@ jobs:
             app-
 
       - name: Cache .next
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-next
         with:
