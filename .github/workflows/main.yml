@@ -1,0 +1,56 @@
+name: Main Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules
+        with:
+          path: node_modules
+          key: app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+            app-${{ env.cache-name }}-
+            app-
+
+      - name: Cache .next
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-next
+        with:
+          path: .next
+          key: app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+            app-${{ env.cache-name }}-
+            app-
+
+      - run: yarn install
+      - run: yarn run build
+      - run: yarn run lint
+
+      - name: Slack Notification
+        uses: homoluctus/slatify@v1.6
+        if: failure()
+        with:
+          job_name: '*${{ github.workflow }}*'
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
