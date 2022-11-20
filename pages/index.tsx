@@ -32,6 +32,7 @@ const Home: NextPage = () => {
     return axios.get(ENDPOINT, { params })
       .then(response => {
         if (response.status !== 200) {
+          console.log(response);
           throw new Error("APIコールでエラー");
         }
 
@@ -39,6 +40,7 @@ const Home: NextPage = () => {
       })
       .catch(e => {
         console.log(e);
+        alert(e);
       })
   }
 
