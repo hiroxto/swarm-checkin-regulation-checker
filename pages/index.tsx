@@ -10,6 +10,7 @@ import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"
 import { useRouter } from "next/router";
+import CheckinDetails from "../components/checkin-details";
 dayjs.extend(timezone)
 dayjs.extend(require('dayjs/plugin/utc'))
 
@@ -67,8 +68,6 @@ const Home: NextPage = () => {
 
   const notLimitedIcon = <CheckIcon className="h-6 w-6" aria-hidden="true" />
   const limitedIcon = <ExclamationTriangleIcon className="h-6 w-6 text-red-300" aria-hidden="true" />
-
-  const viewCreatedAt = (createdAt: number) => dayjs(createdAt * 1000).tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
 
   return (
     <div className="bg-white py-12 px-10">
@@ -152,47 +151,7 @@ const Home: NextPage = () => {
           </div>
         }
         { limitCheckResult !== null &&
-          <div className="mt-10 mb-5">
-            <h2 className="text-3xl font-semibold text-indigo-600">
-              チェックイン詳細
-            </h2>
-
-            {limitCheckResult.results.map((result, index) => (
-              <div key={index} className="mb-5">
-                <h3 className="text-2xl font-semibold text-indigo-400">
-                  { result.title }
-                </h3>
-                <p className="mb-2">
-                  チェックイン数: {result.checkinsCount}
-                </p>
-
-                <table className="min-w-full text-center border hover:table-fixed">
-                  <thead className="border-b">
-                  <tr>
-                    <th>Index</th>
-                    <th>チェックイン日時</th>
-                    <th>場所</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    {result.checkins.map((checkin, checkinIndex) => (
-                      <tr key={checkinIndex} className="hover:bg-gray-100 border-b">
-                        <th className="border-r">
-                          {checkinIndex + 1}
-                        </th>
-                        <th className="border-r">
-                          {viewCreatedAt(checkin.createdAt)}
-                        </th>
-                        <th className="border-r">
-                          {checkin.venue.name}
-                        </th>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ))}
-          </div>
+          <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>
         }
       </main>
 
