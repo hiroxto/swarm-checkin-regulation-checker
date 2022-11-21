@@ -7,6 +7,10 @@ export interface LimitCheckResult {
   title: string
   checkins: CheckinItem[]
   checkinsCount: number
+  period: {
+    from: Date
+    to: Date
+  }
   isLimited: boolean
 }
 
@@ -16,4 +20,11 @@ export interface LimitCheckResult {
 export interface AllLimitCheckResult {
   results: LimitCheckResult[]
   isLimited: boolean
+}
+
+/**
+ * 規制状況を判定するクラス
+ */
+export interface LimitChecker {
+  check(): LimitCheckResult
 }

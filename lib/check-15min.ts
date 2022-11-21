@@ -1,11 +1,11 @@
-import {LimitCheckResult} from "../types/app";
+import {LimitChecker, LimitCheckResult} from "../types/app";
 import {CheckinItem} from "../types/foursquare";
 import dayjs from "dayjs";
 
 /**
  * 15分間に8回でのチェックイン規制を確認するクラス
  */
-export class Check15min {
+export class Check15min implements LimitChecker {
   /**
    * チェックイン規制の名称
    */
@@ -30,6 +30,10 @@ export class Check15min {
       title: this.TITLE,
       checkins: matchCheckins,
       checkinsCount: matchCheckins.length,
+      period: {
+        from: min15ago.toDate(),
+        to: this.now,
+      },
       isLimited: this.isLimited(matchCheckins.length),
     };
   }
