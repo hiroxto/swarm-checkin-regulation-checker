@@ -23,16 +23,16 @@ const CheckinDetail  = (props: Props) => {
       </p>
 
       <table className="min-w-full text-center border hover:table-fixed">
-        <thead className="border-b">
-        <tr>
-          <th>Index</th>
-          <th>チェックイン日時</th>
-          <th>場所</th>
-        </tr>
+        <thead className="border">
+          <tr className="border bg-gray-100">
+            <th className="border-r">Index</th>
+            <th className="border-r">チェックイン日時</th>
+            <th className="border-r">場所</th>
+          </tr>
         </thead>
         <tbody>
         {result.checkins.map((checkin, checkinIndex) => (
-          <tr key={checkinIndex} className="hover:bg-gray-100 border-b">
+          <tr key={checkinIndex} className="hover:bg-gray-100 border">
             <th className="border-r">
               {checkinIndex + 1}
             </th>
