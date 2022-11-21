@@ -1,5 +1,6 @@
 import {LimitCheckResult} from "../types/app";
 import dayjs from "dayjs";
+import {date2String} from "../lib/functions";
 
 interface Props {
   result: LimitCheckResult
@@ -14,8 +15,11 @@ const CheckinDetail  = (props: Props) => {
       <h3 className="text-2xl font-semibold text-indigo-400">
         { result.title }
       </h3>
-      <p className="mb-2">
+      <p>
         チェックイン数: {result.checkinsCount}
+      </p>
+      <p className="mb-2">
+        期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
       </p>
 
       <table className="min-w-full text-center border hover:table-fixed">
