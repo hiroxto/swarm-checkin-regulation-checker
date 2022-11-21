@@ -133,7 +133,7 @@ const Home: NextPage = () => {
               {result.checkins.map((checkin, checkinIndex) => (
                 <tr key={checkinIndex} className="hover:bg-gray-100 border-b">
                   <th className="border-r">
-                    {checkinIndex}
+                    {checkinIndex + 1}
                   </th>
                   <th className="border-r">
                     {viewCreatedAt(checkin.createdAt)}
