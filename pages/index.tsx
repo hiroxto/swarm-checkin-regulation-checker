@@ -4,7 +4,7 @@ import axios from "axios";
 import {useEffect, useRef, useState} from "react";
 import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
-import { LimitChecker } from "../lib/limit-checker";
+import { AllLimitChecker } from "../lib/all-limit-checker";
 import {AllLimitCheckResult} from "../types/app";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
   const checkLimits = async () => {
     const checkins = await getCheckins();
     setCheckins(checkins);
-    const checker = new LimitChecker(checkins)
+    const checker = new AllLimitChecker(checkins)
     const result = checker.check();
     setLimitCheckResult(result)
   }
