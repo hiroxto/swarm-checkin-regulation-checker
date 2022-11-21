@@ -68,87 +68,7 @@ const Home: NextPage = () => {
   const notLimitedIcon = <CheckIcon className="h-6 w-6" aria-hidden="true" />
   const limitedIcon = <ExclamationTriangleIcon className="h-6 w-6 text-red-300" aria-hidden="true" />
 
-  let resultContents;
-  if (limitCheckResult === null) {
-    resultContents = <div></div>
-  } else {
-    resultContents = (
-      <div className="mt-10 mb-5">
-        <h2 className="text-3xl font-semibold text-indigo-600">
-          規制状況
-        </h2>
-        <p className="mb-2">
-          { limitCheckResult.isLimited ? "規制されています" : "規制されていません" }
-        </p>
-
-        <dl className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
-          {limitCheckResult.results.map((result, index) => (
-            <div key={index} className="relative">
-              <dt>
-                <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
-                  { result.isLimited ? limitedIcon : notLimitedIcon }
-                </div>
-                <p className="ml-16 text-lg font-medium leading-6 text-gray-900">
-                  { result.title } : {result.isLimited ? "規制中" : "規制されていません"}
-                </p>
-              </dt>
-              <dd className="mt-2 ml-16 text-base text-gray-500">
-                対象チェックイン回数: { result.checkinsCount }
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    )
-  }
-
   const viewCreatedAt = (createdAt: number) => dayjs(createdAt * 1000).tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
-  let checkinDetails;
-  if (limitCheckResult === null) {
-    checkinDetails = <div></div>
-  } else {
-    checkinDetails = (
-      <div className="mt-10 mb-5">
-        <h2 className="text-3xl font-semibold text-indigo-600">
-          チェックイン詳細
-        </h2>
-
-        {limitCheckResult.results.map((result, index) => (
-          <div key={index} className="mb-5">
-            <h3 className="text-2xl font-semibold text-indigo-400">
-              { result.title }
-            </h3>
-            <p className="mb-2">
-              チェックイン数: {result.checkinsCount}
-            </p>
-
-            <table className="min-w-full text-center border hover:table-fixed">
-              <thead className="border-b">
-                <tr>
-                  <th>Index</th>
-                  <th>チェックイン日時</th>
-                  <th>場所</th>
-                </tr>
-              </thead>
-              {result.checkins.map((checkin, checkinIndex) => (
-                <tr key={checkinIndex} className="hover:bg-gray-100 border-b">
-                  <th className="border-r">
-                    {checkinIndex + 1}
-                  </th>
-                  <th className="border-r">
-                    {viewCreatedAt(checkin.createdAt)}
-                  </th>
-                  <th className="border-r">
-                    {checkin.venue.name}
-                  </th>
-                </tr>
-              ))}
-            </table>
-          </div>
-        ))}
-      </div>
-    )
-  }
 
   return (
     <div className="bg-white py-12 px-10">
@@ -203,8 +123,77 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        { resultContents }
-        { checkinDetails }
+        { limitCheckResult !== null &&
+          <div className="mt-10 mb-5">
+            <h2 className="text-3xl font-semibold text-indigo-600">
+              規制状況
+            </h2>
+            <p className="mb-2">
+              { limitCheckResult.isLimited ? "規制されています" : "規制されていません" }
+            </p>
+
+            <dl className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
+              {limitCheckResult.results.map((result, index) => (
+                <div key={index} className="relative">
+                  <dt>
+                    <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
+                      { result.isLimited ? limitedIcon : notLimitedIcon }
+                    </div>
+                    <p className="ml-16 text-lg font-medium leading-6 text-gray-900">
+                      { result.title } : {result.isLimited ? "規制中" : "規制されていません"}
+                    </p>
+                  </dt>
+                  <dd className="mt-2 ml-16 text-base text-gray-500">
+                    対象チェックイン回数: { result.checkinsCount }
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        }
+        { limitCheckResult !== null &&
+          <div className="mt-10 mb-5">
+            <h2 className="text-3xl font-semibold text-indigo-600">
+              チェックイン詳細
+            </h2>
+
+            {limitCheckResult.results.map((result, index) => (
+              <div key={index} className="mb-5">
+                <h3 className="text-2xl font-semibold text-indigo-400">
+                  { result.title }
+                </h3>
+                <p className="mb-2">
+                  チェックイン数: {result.checkinsCount}
+                </p>
+
+                <table className="min-w-full text-center border hover:table-fixed">
+                  <thead className="border-b">
+                  <tr>
+                    <th>Index</th>
+                    <th>チェックイン日時</th>
+                    <th>場所</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {result.checkins.map((checkin, checkinIndex) => (
+                      <tr key={checkinIndex} className="hover:bg-gray-100 border-b">
+                        <th className="border-r">
+                          {checkinIndex + 1}
+                        </th>
+                        <th className="border-r">
+                          {viewCreatedAt(checkin.createdAt)}
+                        </th>
+                        <th className="border-r">
+                          {checkin.venue.name}
+                        </th>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+        }
       </main>
 
       <Footer/>
