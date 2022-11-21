@@ -30,6 +30,10 @@ export class Check2min implements LimitChecker {
       title: this.TITLE,
       checkins: matchCheckins,
       checkinsCount: matchCheckins.length,
+      period: {
+        from: min2ago.toDate(),
+        to: this.now,
+      },
       isLimited: this.isLimited(matchCheckins.length),
     }
   }

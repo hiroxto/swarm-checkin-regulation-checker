@@ -7,6 +7,10 @@ export interface LimitCheckResult {
   title: string
   checkins: CheckinItem[]
   checkinsCount: number
+  period: {
+    from: Date
+    to: Date
+  }
   isLimited: boolean
 }
 
