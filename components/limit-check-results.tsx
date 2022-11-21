@@ -17,11 +17,11 @@ const LimitCheckResults  = (props: Props) => {
         { limitCheckResult.isLimited ? "規制されています" : "規制されていません" }
       </p>
 
-      <dl className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
+      <div className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
         {limitCheckResult.results.map((result, index) => (
           <LimitCheckResult limitCheckResult={result} key={index}></LimitCheckResult>
         ))}
-      </dl>
+      </div>
     </div>
   )
 }

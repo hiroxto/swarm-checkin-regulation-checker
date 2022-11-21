@@ -13,20 +13,19 @@ const LimitCheckResult  = (props: Props) => {
 
   return (
     <div className="relative">
-      <dt>
-        <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
-          { result.isLimited ? limitedIcon : notLimitedIcon }
-        </div>
-        <p className="ml-16 text-lg font-medium leading-6 text-gray-900">
-          { result.title } : {result.isLimited ? "規制中" : "規制されていません"}
-        </p>
-      </dt>
-      <dd className="ml-16 text-base text-gray-500">
+      <div className="absolute flex h-12 w-12 items-center justify-center rounded-md bg-indigo-500 text-white">
+        { result.isLimited ? limitedIcon : notLimitedIcon }
+      </div>
+      <p className="ml-16 text-lg font-medium leading-6 text-gray-900">
+        { result.title } : {result.isLimited ? "規制中" : "規制されていません"}
+      </p>
+
+      <div className="ml-16 text-base text-gray-500">
         対象チェックイン回数: { result.checkinsCount }
-      </dd>
-      <dd className="ml-16 text-base text-gray-500">
+      </div>
+      <div className="ml-16 text-base text-gray-500">
         対象チェックイン期間: { date2String(result.period.from) }
-      </dd>
+      </div>
     </div>
   )
 }
