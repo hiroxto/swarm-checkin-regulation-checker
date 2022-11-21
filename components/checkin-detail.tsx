@@ -5,7 +5,7 @@ interface Props {
   result: LimitCheckResult
 }
 
-const CheckinDetails  = (props: Props) => {
+const CheckinDetail  = (props: Props) => {
   const result = props.result;
   const viewCreatedAt = (createdAt: number) => dayjs(createdAt * 1000).tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
 
@@ -46,4 +46,4 @@ const CheckinDetails  = (props: Props) => {
   )
 }
 
-export default CheckinDetails
+export default CheckinDetail
