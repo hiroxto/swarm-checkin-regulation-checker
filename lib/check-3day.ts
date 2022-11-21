@@ -1,11 +1,11 @@
-import {LimitCheckResult} from "../types/app";
+import {LimitChecker, LimitCheckResult} from "../types/app";
 import {CheckinItem} from "../types/foursquare";
 import dayjs from "dayjs";
 
 /**
  * 3日(72時間)に90回でのチェックイン規制を確認するクラス
  */
-export class Check3day {
+export class Check3day implements LimitChecker {
   /**
    * チェックイン規制の名称
    */

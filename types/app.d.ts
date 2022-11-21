@@ -17,3 +17,10 @@ export interface AllLimitCheckResult {
   results: LimitCheckResult[]
   isLimited: boolean
 }
+
+/**
+ * 規制状況を判定するクラス
+ */
+export interface LimitChecker {
+  check(): LimitCheckResult
+}
