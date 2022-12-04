@@ -33,6 +33,8 @@ export class Check3day implements LimitChecker {
       period: {
         from: day3ago.toDate(),
         to: this.now,
+        value: 3,
+        unit: 'days',
       },
       isLimited: this.isLimited(matchCheckins.length),
     }
