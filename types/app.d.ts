@@ -9,7 +9,9 @@ export interface LimitCheckResult {
   checkinsCount: number
   period: {
     from: Date
-    to: Date
+    to: Date,
+    value: number
+    unit: 'minutes' | 'days',
   }
   isLimited: boolean
 }

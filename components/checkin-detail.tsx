@@ -8,7 +8,9 @@ interface Props {
 
 const CheckinDetail  = (props: Props) => {
   const result = props.result;
-  const viewCreatedAt = (createdAt: number) => dayjs(createdAt * 1000).tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
+  const formatViewDate = (day: dayjs.Dayjs) => day.tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
+  const viewCreatedAt = (createdAt: number) => formatViewDate(dayjs(createdAt * 1000));
+  const computeLimitDay = (createdAt: number) => formatViewDate(dayjs(createdAt * 1000).add(result.period.value, result.period.unit));
 
   return (
     <div className="mb-5">
@@ -28,6 +30,7 @@ const CheckinDetail  = (props: Props) => {
             <th className="border-r">Index</th>
             <th className="border-r">チェックイン日時</th>
             <th className="border-r">場所</th>
+            <th className="border-r">規制解除日時</th>
           </tr>
         </thead>
         <tbody>
@@ -41,6 +44,9 @@ const CheckinDetail  = (props: Props) => {
             </th>
             <th className="border-r">
               {checkin.venue.name}
+            </th>
+            <th className="border-r">
+              {computeLimitDay(checkin.createdAt)}
             </th>
           </tr>
         ))}
