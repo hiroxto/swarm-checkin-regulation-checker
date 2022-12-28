@@ -11,6 +11,8 @@ import timezone from "dayjs/plugin/timezone"
 import { useRouter } from "next/router";
 import CheckinDetails from "../components/checkin-details";
 import LimitCheckResults from "../components/limit-check-results";
+import {useTime} from "../hooks/times";
+import {date2String} from "../lib/functions";
 dayjs.extend(timezone)
 dayjs.extend(require('dayjs/plugin/utc'))
 
@@ -21,6 +23,7 @@ const Home: NextPage = () => {
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
+  const {time} = useTime({interval: 1000});
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -81,6 +84,10 @@ const Home: NextPage = () => {
 
           <p>
             Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
+          </p>
+
+          <p className="pt-2">
+            現在時刻: {date2String(new Date(time))}
           </p>
         </div>
 
