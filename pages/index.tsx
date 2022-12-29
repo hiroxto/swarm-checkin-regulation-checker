@@ -24,6 +24,7 @@ const Home: NextPage = () => {
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
   const {time} = useTime({interval: 1000});
+  const [isClient, setIsClient] = useState<boolean>(false);
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -68,6 +69,7 @@ const Home: NextPage = () => {
 
     console.log(checkins);
   }, [router, token, checkins]);
+  useEffect(() => setIsClient(true), []);
 
   return (
     <div className="bg-white py-12 px-10">
@@ -87,7 +89,7 @@ const Home: NextPage = () => {
           </p>
 
           <p className="pt-2">
-            現在時刻: {date2String(new Date(time))}
+            現在時刻: {isClient ? date2String(new Date(time)) : 'date is not available'}
           </p>
         </div>
 
