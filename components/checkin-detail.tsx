@@ -11,6 +11,7 @@ const CheckinDetail  = (props: Props) => {
   const formatViewDate = (day: dayjs.Dayjs) => day.tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
   const viewCreatedAt = (createdAt: number) => formatViewDate(dayjs(createdAt * 1000));
   const computeLimitDay = (createdAt: number) => formatViewDate(dayjs(createdAt * 1000).add(result.period.value, result.period.unit));
+  const isLimited = (checkinNumber: number) => checkinNumber >= result.limit;
 
   return (
     <div className="mb-5">
@@ -35,7 +36,7 @@ const CheckinDetail  = (props: Props) => {
         </thead>
         <tbody>
         {result.checkins.map((checkin, checkinIndex) => (
-          <tr key={checkinIndex} className="hover:bg-gray-100 border">
+          <tr key={checkinIndex} className={isLimited(checkinIndex + 1) ? 'bg-red-100 hover:bg-red-200 border' : 'hover:bg-gray-100 border'}>
             <th className="border-r">
               {checkinIndex + 1}
             </th>

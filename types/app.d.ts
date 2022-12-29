@@ -5,6 +5,7 @@ import {CheckinItem} from "./foursquare";
  */
 export interface LimitCheckResult {
   title: string
+  limit: number
   checkins: CheckinItem[]
   checkinsCount: number
   period: {

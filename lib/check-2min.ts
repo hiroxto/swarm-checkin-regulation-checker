@@ -28,6 +28,7 @@ export class Check2min implements LimitChecker {
 
     return {
       title: this.TITLE,
+      limit: this.CHECKIN_LIMIT,
       checkins: matchCheckins,
       checkinsCount: matchCheckins.length,
       period: {
