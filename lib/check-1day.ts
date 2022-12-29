@@ -28,6 +28,7 @@ export class Check1day implements LimitChecker {
 
     return {
       title: this.TITLE,
+      limit: this.CHECKIN_LIMIT,
       checkins: matchCheckins,
       checkinsCount: matchCheckins.length,
       period: {
