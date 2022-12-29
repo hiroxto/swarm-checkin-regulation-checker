@@ -11,8 +11,7 @@ import timezone from "dayjs/plugin/timezone"
 import { useRouter } from "next/router";
 import CheckinDetails from "../components/checkin-details";
 import LimitCheckResults from "../components/limit-check-results";
-import {useTime} from "../hooks/times";
-import {date2String} from "../lib/functions";
+import NowDate from "../components/now-date";
 dayjs.extend(timezone)
 dayjs.extend(require('dayjs/plugin/utc'))
 
@@ -23,8 +22,6 @@ const Home: NextPage = () => {
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
-  const {time} = useTime({interval: 1000});
-  const [isClient, setIsClient] = useState<boolean>(false);
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -69,7 +66,6 @@ const Home: NextPage = () => {
 
     console.log(checkins);
   }, [router, token, checkins]);
-  useEffect(() => setIsClient(true), []);
 
   return (
     <div className="bg-white py-12 px-10">
@@ -88,9 +84,7 @@ const Home: NextPage = () => {
             Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
           </p>
 
-          <p className="pt-2">
-            現在時刻: {isClient ? date2String(new Date(time)) : 'date is not available'}
-          </p>
+          <NowDate interval={1000}></NowDate>
         </div>
 
         <div className="mb-5">
