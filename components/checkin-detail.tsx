@@ -1,6 +1,5 @@
 import {LimitCheckResult} from "../types/app";
-import dayjs from "dayjs";
-import {date2String} from "../lib/functions";
+import {date2String, createdAt2DayJs} from "../lib/functions";
 
 interface Props {
   result: LimitCheckResult
@@ -8,9 +7,7 @@ interface Props {
 
 const CheckinDetail  = (props: Props) => {
   const result = props.result;
-  const formatViewDate = (day: dayjs.Dayjs) => day.tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
-  const viewCreatedAt = (createdAt: number) => formatViewDate(dayjs(createdAt * 1000));
-  const computeLimitDay = (createdAt: number) => formatViewDate(dayjs(createdAt * 1000).add(result.period.value, result.period.unit));
+  const computeLimitDay = (createdAt: number) => date2String(createdAt2DayJs(createdAt).add(result.period.value, result.period.unit));
   const isLimited = (checkinNumber: number) => checkinNumber >= result.limit;
 
   return (
@@ -41,7 +38,7 @@ const CheckinDetail  = (props: Props) => {
               {checkinIndex + 1}
             </th>
             <th className="border-r">
-              {viewCreatedAt(checkin.createdAt)}
+              {date2String(createdAt2DayJs(checkin.createdAt))}
             </th>
             <th className="border-r">
               {checkin.venue.name}
