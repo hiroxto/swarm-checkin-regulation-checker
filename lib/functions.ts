@@ -12,4 +12,4 @@ export const date2String = (date: Date | dayjs.Dayjs): string => dayjs(date).tz(
  *
  * @param createdAt
  */
-const createdAt2DayJs = (createdAt: number): dayjs.Dayjs => dayjs(createdAt * 1000);
+export const createdAt2DayJs = (createdAt: number): dayjs.Dayjs => dayjs(createdAt * 1000);
