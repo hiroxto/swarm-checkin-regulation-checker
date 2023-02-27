@@ -12,15 +12,17 @@ const CheckinDetail  = (props: Props) => {
 
   return (
     <div className="mb-5">
-      <h3 className="text-2xl font-semibold text-indigo-400">
-        { result.title }
-      </h3>
-      <p>
-        チェックイン数: {result.checkinsCount}
-      </p>
-      <p className="mb-2">
-        期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
-      </p>
+      <div className="sticky top-20 z-40 bg-white">
+        <h3 className="text-2xl font-semibold text-indigo-400">
+          { result.title }
+        </h3>
+        <p>
+          チェックイン数: {result.checkinsCount}
+        </p>
+        <p className="mb-2">
+          期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
+        </p>
+      </div>
 
       <table className="min-w-full text-center border hover:table-fixed">
         <thead className="border">
