@@ -46,12 +46,18 @@ const Home: NextPage = () => {
       })
   }
 
-  const checkLimits = async () => {
+  const pullCheckins = async () => {
     const checkins = await getCheckins();
     setCheckins(checkins);
+  }
+  const checkLimits = async () => {
     const checker = new AllLimitChecker(checkins)
     const result = checker.check();
     setLimitCheckResult(result)
+  }
+  const pullAndCheckLimits = async () => {
+    await pullCheckins();
+    await checkLimits();
   }
 
   useEffect(() => {
@@ -87,16 +93,20 @@ const Home: NextPage = () => {
 
         <div className="sticky top-0 z-50 mb-5 bg-white">
           <NowDate interval={1000}></NowDate>
-          <div className="mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
-            <div className="rounded-md">
-              <button
-                onClick={checkLimits}
-                disabled={token === ""}
-                className="flex justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
-              >
-                履歴取得
-              </button>
-            </div>
+          <div className="buttons mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
+            <button
+              onClick={pullAndCheckLimits}
+              disabled={token === ""}
+              className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+            >
+              履歴取得
+            </button>
+            <button
+              onClick={checkLimits}
+              className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+            >
+              再チェック
+            </button>
           </div>
         </div>
 
