@@ -83,8 +83,21 @@ const Home: NextPage = () => {
           <p>
             Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
           </p>
+        </div>
 
+        <div className="sticky top-0 z-50 mb-5 bg-white">
           <NowDate interval={1000}></NowDate>
+          <div className="mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
+            <div className="rounded-md">
+              <button
+                onClick={checkLimits}
+                disabled={token === ""}
+                className="flex justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+              >
+                履歴取得
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="mb-5">
@@ -107,18 +120,6 @@ const Home: NextPage = () => {
               className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
               placeholder="Token"
             />
-          </div>
-
-          <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <div className="rounded-md">
-              <button
-                onClick={checkLimits}
-                disabled={token === ""}
-                className="flex justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
-              >
-                規制状況を確認する
-              </button>
-            </div>
           </div>
         </div>
 
