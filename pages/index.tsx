@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import axios from "axios";
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { AllLimitChecker } from "../lib/all-limit-checker";
@@ -50,14 +50,13 @@ const Home: NextPage = () => {
     const checkins = await getCheckins();
     setCheckins(checkins);
   }
-  const checkLimits = async () => {
+  const checkLimits = useCallback(async () => {
     const checker = new AllLimitChecker(checkins)
     const result = checker.check();
     setLimitCheckResult(result)
-  }
+  }, [checkins]);
   const pullAndCheckLimits = async () => {
     await pullCheckins();
-    await checkLimits();
   }
 
   useEffect(() => {
@@ -71,7 +70,13 @@ const Home: NextPage = () => {
     }
 
     console.log(checkins);
-  }, [router, token, checkins]);
+
+    const id = setInterval(async () => {
+      await checkLimits();
+    }, 1000);
+
+    return () => clearInterval(id)
+  }, [router, token, checkins, checkLimits]);
 
   return (
     <div className="bg-white py-12 px-10">
