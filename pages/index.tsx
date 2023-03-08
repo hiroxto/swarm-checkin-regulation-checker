@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import axios from "axios";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { AllLimitChecker } from "../lib/all-limit-checker";
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
+  const isLimited = useMemo<boolean>(() => limitCheckResult === null ? false : limitCheckResult.isLimited, [limitCheckResult]);
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -94,7 +95,12 @@ const Home: NextPage = () => {
         </div>
 
         <div className="sticky top-0 z-50 mb-5 bg-white">
+          <p className={`${isLimited ? 'text-red-500' : 'text-gray-900'}`}>
+            { isLimited ? '規制されています' : '規制されていません' }
+          </p>
+
           <NowDate interval={1000}></NowDate>
+
           <div className="buttons mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
             <button
               onClick={pullCheckins}
