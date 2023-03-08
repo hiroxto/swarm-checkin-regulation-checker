@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import axios from "axios";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {CheckinItem} from '../types/foursquare'
 import Footer from "../components/footer";
 import { AllLimitChecker } from "../lib/all-limit-checker";
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult|null>(null);
+  const isLimited = useMemo<boolean>(() => limitCheckResult === null ? false : limitCheckResult.isLimited, [limitCheckResult]);
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -50,14 +51,11 @@ const Home: NextPage = () => {
     const checkins = await getCheckins();
     setCheckins(checkins);
   }
-  const checkLimits = useCallback(async () => {
+  const checkLimits = useCallback(() => {
     const checker = new AllLimitChecker(checkins)
     const result = checker.check();
     setLimitCheckResult(result)
   }, [checkins]);
-  const pullAndCheckLimits = async () => {
-    await pullCheckins();
-  }
 
   useEffect(() => {
     if (!router.isReady) {
@@ -71,8 +69,8 @@ const Home: NextPage = () => {
 
     console.log(checkins);
 
-    const id = setInterval(async () => {
-      await checkLimits();
+    const id = setInterval(() => {
+      checkLimits();
     }, 1000);
 
     return () => clearInterval(id)
@@ -97,20 +95,19 @@ const Home: NextPage = () => {
         </div>
 
         <div className="sticky top-0 z-50 mb-5 bg-white">
+          <p className={`${isLimited ? 'text-red-500' : 'text-gray-900'}`}>
+            { isLimited ? '規制されています' : '規制されていません' }
+          </p>
+
           <NowDate interval={1000}></NowDate>
+
           <div className="buttons mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
             <button
-              onClick={pullAndCheckLimits}
+              onClick={pullCheckins}
               disabled={token === ""}
               className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
             >
               履歴取得
-            </button>
-            <button
-              onClick={checkLimits}
-              className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
-            >
-              再チェック
             </button>
           </div>
         </div>
