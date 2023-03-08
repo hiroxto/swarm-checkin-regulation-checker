@@ -106,12 +106,6 @@ const Home: NextPage = () => {
             >
               履歴取得
             </button>
-            <button
-              onClick={checkLimits}
-              className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
-            >
-              再チェック
-            </button>
           </div>
         </div>
 
