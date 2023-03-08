@@ -50,14 +50,11 @@ const Home: NextPage = () => {
     const checkins = await getCheckins();
     setCheckins(checkins);
   }
-  const checkLimits = useCallback(async () => {
+  const checkLimits = useCallback(() => {
     const checker = new AllLimitChecker(checkins)
     const result = checker.check();
     setLimitCheckResult(result)
   }, [checkins]);
-  const pullAndCheckLimits = async () => {
-    await pullCheckins();
-  }
 
   useEffect(() => {
     if (!router.isReady) {
@@ -71,8 +68,8 @@ const Home: NextPage = () => {
 
     console.log(checkins);
 
-    const id = setInterval(async () => {
-      await checkLimits();
+    const id = setInterval(() => {
+      checkLimits();
     }, 1000);
 
     return () => clearInterval(id)
@@ -100,7 +97,7 @@ const Home: NextPage = () => {
           <NowDate interval={1000}></NowDate>
           <div className="buttons mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
             <button
-              onClick={pullAndCheckLimits}
+              onClick={pullCheckins}
               disabled={token === ""}
               className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
             >
