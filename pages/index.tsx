@@ -94,7 +94,7 @@ const Home: NextPage = () => {
           </p>
         </div>
 
-        <div className="sticky top-0 z-30 p-4  bg-white">
+        <div className="sticky top-0 z-30 bg-white">
           <p className={`${isLimited ? 'text-red-500' : 'text-gray-900'}`}>
             { isLimited ? '規制されています' : '規制されていません' }
           </p>
