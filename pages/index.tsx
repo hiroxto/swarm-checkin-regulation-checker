@@ -83,7 +83,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール" />
       </Head>
 
-      <main>
+      <main className="relative">
         <div className="mb-5">
           <h1 className="text-4xl font-semibold text-indigo-600">
             Swarm コイン規制チェッカー
@@ -94,7 +94,7 @@ const Home: NextPage = () => {
           </p>
         </div>
 
-        <div className="sticky top-0 z-50 mb-5 bg-white">
+        <div className="sticky top-0 z-30 bg-white">
           <p className={`${isLimited ? 'text-red-500' : 'text-gray-900'}`}>
             { isLimited ? '規制されています' : '規制されていません' }
           </p>

@@ -12,7 +12,7 @@ const CheckinDetail  = (props: Props) => {
 
   return (
     <div className="mb-5">
-      <div className="sticky top-20 z-40 bg-white">
+      <div className="sticky top-28 z-10 bg-white">
         <h3 className="text-2xl font-semibold text-indigo-400">
           { result.title }
         </h3>
