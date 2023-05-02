@@ -94,18 +94,18 @@ const Home: NextPage = () => {
           </p>
         </div>
 
-        <div className="sticky top-0 z-30 bg-white">
+        <div className="sticky top-0 z-30 bg-white pb-3">
           <p className={`${isLimited ? 'text-red-500' : 'text-gray-900'}`}>
             { isLimited ? '規制されています' : '規制されていません' }
           </p>
 
           <NowDate interval={1000}></NowDate>
 
-          <div className="buttons mt-1 sm:mt-1 sm:flex sm:justify-center lg:justify-start">
+          <div className="buttons mt-1">
             <button
               onClick={pullCheckins}
               disabled={token === ""}
-              className="justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-2 mr-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+              className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
             >
               履歴取得
             </button>
