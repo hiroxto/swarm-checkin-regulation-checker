@@ -77,7 +77,7 @@ const Home: NextPage = () => {
   }, [router, token, checkins, checkLimits]);
 
   return (
-    <div className="bg-white py-12 px-10">
+    <div className="bg-white px-5 py-5">
       <Head>
         <title>Swarm コイン規制チェッカー</title>
         <meta name="description" content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール" />
