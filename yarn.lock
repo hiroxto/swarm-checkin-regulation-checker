@@ -1105,9 +1105,9 @@ form-data@^4.0.0:
     mime-types "^2.1.12"
 
 fraction.js@^4.2.0:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.4.tgz#b2bac8249a610c3396106da97c5a71da75b94b1c"
-  integrity sha512-pwiTgt0Q7t+GHZA4yaLjObx4vXmmdcS0iSJ19o8d/goUGgItX9UZWKWNnLHehxviD8wU2IWRsnR8cD5+yOJP2Q==
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.5.tgz#4e43c82c446e5dd64fd06aeb0cdab52f915fd110"
+  integrity sha512-58DncB2bO/8ZvTHapG7U2KEbeFFyUbbrFFkHakecpdUSqJrQnEuBeTUPEggIVkx5cnugZJ4IVzk2Nbb32MOxBg==
 
 fs.realpath@^1.0.0:
   version "1.0.0"
