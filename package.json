@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "format": "prettier --check {components,hooks,lib,pages,public,styles,types}/**/*.{ts,tsx}",
-    "format:fix": "prettier --write {components,hooks,lib,pages,public,styles,types}/**/*.{ts,tsx}"
+    "format": "prettier --check ./**/*.{ts,tsx}",
+    "format:fix": "prettier --write ./**/*.{ts,tsx}"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.12",
