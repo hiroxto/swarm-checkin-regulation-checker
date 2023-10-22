@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 interface HookArgs {
-  interval: number
+  interval: number;
 }
 
-export const useTime = ({interval}: HookArgs) => {
+export const useTime = ({ interval }: HookArgs) => {
   const [time, setTime] = useState<number>(Date.now());
 
   useEffect(() => {
@@ -12,8 +12,8 @@ export const useTime = ({interval}: HookArgs) => {
 
     return () => {
       clearTimeout(timeoutId);
-    }
+    };
   }, [time, setTime, interval]);
 
-  return {time};
-}
+  return { time };
+};

@@ -1,24 +1,21 @@
-import {LimitCheckResult} from "../types/app";
-import {date2String, createdAt2DayJs} from "../lib/functions";
+import type { LimitCheckResult } from "../types/app";
+import { date2String, createdAt2DayJs } from "../lib/functions";
 
 interface Props {
-  result: LimitCheckResult
+  result: LimitCheckResult;
 }
 
-const CheckinDetail  = (props: Props) => {
+const CheckinDetail = (props: Props) => {
   const result = props.result;
-  const computeLimitDay = (createdAt: number) => date2String(createdAt2DayJs(createdAt).add(result.period.value, result.period.unit));
+  const computeLimitDay = (createdAt: number) =>
+    date2String(createdAt2DayJs(createdAt).add(result.period.value, result.period.unit));
   const isLimited = (checkinNumber: number) => checkinNumber >= result.limit;
 
   return (
     <div className="mb-5">
       <div className="sticky top-28 z-10 bg-white">
-        <h3 className="text-2xl font-semibold text-indigo-400">
-          { result.title }
-        </h3>
-        <p>
-          チェックイン数: {result.checkinsCount}
-        </p>
+        <h3 className="text-2xl font-semibold text-indigo-400">{result.title}</h3>
+        <p>チェックイン数: {result.checkinsCount}</p>
         <p className="mb-2">
           期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
         </p>
@@ -34,26 +31,25 @@ const CheckinDetail  = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-        {result.checkins.map((checkin, checkinIndex) => (
-          <tr key={checkinIndex} className={isLimited(checkinIndex + 1) ? 'bg-red-100 hover:bg-red-200 border' : 'hover:bg-gray-100 border'}>
-            <th className="border-r">
-              {checkinIndex + 1}
-            </th>
-            <th className="border-r">
-              {date2String(createdAt2DayJs(checkin.createdAt))}
-            </th>
-            <th className="border-r">
-              {checkin.venue.name}
-            </th>
-            <th className="border-r">
-              {computeLimitDay(checkin.createdAt)}
-            </th>
-          </tr>
-        ))}
+          {result.checkins.map((checkin, checkinIndex) => (
+            <tr
+              className={
+                isLimited(checkinIndex + 1)
+                  ? "bg-red-100 hover:bg-red-200 border"
+                  : "hover:bg-gray-100 border"
+              }
+              key={checkinIndex}
+            >
+              <th className="border-r">{checkinIndex + 1}</th>
+              <th className="border-r">{date2String(createdAt2DayJs(checkin.createdAt))}</th>
+              <th className="border-r">{checkin.venue.name}</th>
+              <th className="border-r">{computeLimitDay(checkin.createdAt)}</th>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default CheckinDetail
+export default CheckinDetail;

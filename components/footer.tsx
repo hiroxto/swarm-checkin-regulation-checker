@@ -1,11 +1,7 @@
-import {NextPage} from "next";
+import type { NextPage } from "next";
 
-const Footer: NextPage  = () => {
-  return (
-    <footer>
-      Developed by hiroxto
-    </footer>
-  )
-}
+const Footer: NextPage = () => {
+  return <footer>Developed by hiroxto</footer>;
+};
 
-export default Footer
+export default Footer;
