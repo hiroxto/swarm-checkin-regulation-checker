@@ -1,6 +1,7 @@
-name: Main Test
+name: CI
 
-on: [push]
+on:
+  pull_request:
 
 jobs:
   build:
@@ -45,12 +46,3 @@ jobs:
       - run: yarn install
       - run: yarn run build
       - run: yarn run lint
-
-      - name: Slack Notification
-        uses: homoluctus/slatify@v1.6
-        if: failure()
-        with:
-          job_name: '*${{ github.workflow }}*'
-          type: ${{ job.status }}
-          icon_emoji: ":octocat:"
-          url: ${{ secrets.SLACK_WEBHOOK }}
