@@ -1,6 +1,7 @@
 import {LimitChecker, LimitCheckResult} from "../types/app";
 import {CheckinItem} from "../types/foursquare";
 import dayjs from "dayjs";
+import { createdAt2DayJs } from "./functions";
 
 /**
  * 1日(24時間)に50回でのチェックイン規制を確認するクラス
@@ -25,6 +26,7 @@ export class Check1day implements LimitChecker {
   check(): LimitCheckResult {
     const day1ago = dayjs(this.now).add(-1, "day");
     const matchCheckins: CheckinItem[] = this.checkins.filter(checkin => dayjs(checkin.createdAt * 1000).isAfter(day1ago));
+    const thresholdCheckin = matchCheckins[this.CHECKIN_LIMIT - 1];
 
     return {
       title: this.TITLE,
@@ -38,6 +40,7 @@ export class Check1day implements LimitChecker {
         unit: 'days',
       },
       isLimited: this.isLimited(matchCheckins.length),
+      unlimitAt: thresholdCheckin == null ? null : createdAt2DayJs(thresholdCheckin.createdAt).add(1, "day").toDate()
     }
   }
 
