@@ -15,6 +15,7 @@ export interface LimitCheckResult {
     unit: 'minutes' | 'days',
   }
   isLimited: boolean
+  unlimitAt: Date | null
 }
 
 /**

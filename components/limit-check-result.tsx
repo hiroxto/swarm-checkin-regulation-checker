@@ -29,6 +29,9 @@ const LimitCheckResult  = (props: Props) => {
       <div className={`ml-16 text-base ${textColor}`}>
         対象チェックイン期間: { date2String(result.period.from) }
       </div>
+      <div className={`ml-16 text-base ${textColor}`}>
+        規制解除: { result.unlimitAt == null ? 'N/A' : date2String(result.unlimitAt) }
+      </div>
     </div>
   )
 }

@@ -18,6 +18,7 @@ export class AllLimitChecker {
     const check3day = new Check3day(this.checkins, now).check()
     const check3dayAnd1day = new Check3dayAnd1day(this.checkins, now).check()
 
+    console.log(check2min, check15min, check1day, check3day, check3dayAnd1day);
     const isLimited = [
         check2min.isLimited,
         check15min.isLimited,
