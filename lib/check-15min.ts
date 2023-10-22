@@ -1,5 +1,5 @@
-import {LimitChecker, LimitCheckResult} from "../types/app";
-import {CheckinItem} from "../types/foursquare";
+import type { LimitChecker, LimitCheckResult } from "../types/app";
+import type { CheckinItem } from "../types/foursquare";
 import dayjs from "dayjs";
 import { createdAt2DayJs } from "./functions";
 
@@ -17,15 +17,19 @@ export class Check15min implements LimitChecker {
    */
   readonly CHECKIN_LIMIT = 8;
 
-  constructor(private checkins: CheckinItem[], private now: Date) {
-  }
+  constructor(
+    private checkins: CheckinItem[],
+    private now: Date,
+  ) {}
 
   /**
    * 15分間に8回のチェックインが行われているかをチェックする
    */
   check(): LimitCheckResult {
     const min15ago = dayjs(this.now).add(-15, "minute");
-    const matchCheckins: CheckinItem[] = this.checkins.filter(checkin => dayjs(checkin.createdAt * 1000).isAfter(min15ago));
+    const matchCheckins: CheckinItem[] = this.checkins.filter((checkin) =>
+      dayjs(checkin.createdAt * 1000).isAfter(min15ago),
+    );
     const thresholdCheckin = matchCheckins[this.CHECKIN_LIMIT - 1];
 
     return {
@@ -37,10 +41,13 @@ export class Check15min implements LimitChecker {
         from: min15ago.toDate(),
         to: this.now,
         value: 15,
-        unit: 'minutes',
+        unit: "minutes",
       },
       isLimited: this.isLimited(matchCheckins.length),
-      unlimitAt: thresholdCheckin == null ? null : createdAt2DayJs(thresholdCheckin.createdAt).add(15, "minute").toDate()
+      unlimitAt:
+        thresholdCheckin == null
+          ? null
+          : createdAt2DayJs(thresholdCheckin.createdAt).add(15, "minute").toDate(),
     };
   }
 
