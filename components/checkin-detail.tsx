@@ -38,7 +38,7 @@ const CheckinDetail = (props: Props) => {
                   ? "bg-red-100 hover:bg-red-200 border"
                   : "hover:bg-gray-100 border"
               }
-              key={checkinIndex}
+              key={checkin.id}
             >
               <th className="border-r">{checkinIndex + 1}</th>
               <th className="border-r">{date2String(createdAt2DayJs(checkin.createdAt))}</th>
