@@ -19,31 +19,27 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Cache node_modules
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Cache pnpm store
         uses: actions/cache@v3
         env:
-          cache-name: cache-node_modules
+          cache-name: pnpm-store
         with:
-          path: node_modules
-          key: app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-            app-${{ env.cache-name }}-
-            app-
+            ${{ runner.os }}-${{ env.cache-name }}
 
-      - name: Cache .next
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-next
-        with:
-          path: .next
-          key: app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            app-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
-            app-${{ env.cache-name }}-
-            app-
-
-      - run: yarn install
-      - run: yarn run build
-      - run: yarn run lint
-      - run: yarn run format
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run lint
+      - run: pnpm run format
