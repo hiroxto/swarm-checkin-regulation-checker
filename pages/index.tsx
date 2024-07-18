@@ -89,6 +89,7 @@ const Home: NextPage = () => {
           content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール"
           name="description"
         />
+        <meta content="telephone=no" name="format-detection" />
       </Head>
 
       <main className="relative">
