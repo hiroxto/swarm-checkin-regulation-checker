@@ -1,4 +1,4 @@
-import { LimitCheckResult } from "../types/app";
+import { type LimitCheckResult } from "../types/app";
 import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { date2String } from "../lib/functions";
 

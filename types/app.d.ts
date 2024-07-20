@@ -1,4 +1,4 @@
-import { CheckinItem } from "./foursquare";
+import { type CheckinItem } from "./foursquare";
 
 /**
  * 規制の確認結果のオブジェクト
