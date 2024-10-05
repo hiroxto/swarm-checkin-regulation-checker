@@ -3,18 +3,12 @@ import Head from "next/head";
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CheckinItem } from "../types/foursquare";
-import Footer from "../components/footer";
 import { AllLimitChecker } from "../lib/all-limit-checker";
 import type { AllLimitCheckResult } from "../types/app";
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
 import { useRouter } from "next/router";
 import CheckinDetails from "../components/checkin-details";
 import LimitCheckResults from "../components/limit-check-results";
 import NowDate from "../components/now-date";
-dayjs.extend(timezone);
-// eslint-disable-next-line
-dayjs.extend(require("dayjs/plugin/utc"));
 
 const Home: NextPage = () => {
   const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";
@@ -40,14 +34,12 @@ const Home: NextPage = () => {
       .get(ENDPOINT, { params })
       .then((response) => {
         if (response.status !== 200) {
-          console.log(response);
           throw new Error("APIコールでエラー");
         }
 
         return response.data.response.checkins.items;
       })
       .catch((e) => {
-        console.log(e);
         alert(e);
       });
   };
@@ -71,8 +63,6 @@ const Home: NextPage = () => {
       setToken(String(router.query.token));
       setViaQuery.current = true;
     }
-
-    console.log(checkins);
 
     const id = setInterval(() => {
       checkLimits();
@@ -119,7 +109,6 @@ const Home: NextPage = () => {
 
         <div className="mb-5">
           <h2 className="text-3xl font-semibold text-indigo-600">設定</h2>
-          <p className="mb-2">チェックイン履歴を取得するためにAPIトークンが必要です。</p>
 
           <label className="block text-sm font-medium text-gray-700" htmlFor="price">
             APIトークン
@@ -143,8 +132,6 @@ const Home: NextPage = () => {
           <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 };

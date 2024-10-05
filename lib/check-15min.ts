@@ -1,7 +1,7 @@
 import type { LimitChecker, LimitCheckResult } from "../types/app";
 import type { CheckinItem } from "../types/foursquare";
-import dayjs from "dayjs";
-import { createdAt2DayJs } from "./functions";
+import { createdAt2Date } from "./functions";
+import { addMinutes, isAfter, subMinutes } from "date-fns";
 
 /**
  * 15分間に8回でのチェックイン規制を確認するクラス
@@ -26,9 +26,9 @@ export class Check15min implements LimitChecker {
    * 15分間に8回のチェックインが行われているかをチェックする
    */
   check(): LimitCheckResult {
-    const min15ago = dayjs(this.now).add(-15, "minute");
+    const min15ago = subMinutes(this.now, 15);
     const matchCheckins: CheckinItem[] = this.checkins.filter((checkin) =>
-      dayjs(checkin.createdAt * 1000).isAfter(min15ago),
+      isAfter(createdAt2Date(checkin.createdAt), min15ago),
     );
     const thresholdCheckin = matchCheckins[this.CHECKIN_LIMIT - 1];
 
@@ -38,7 +38,7 @@ export class Check15min implements LimitChecker {
       checkins: matchCheckins,
       checkinsCount: matchCheckins.length,
       period: {
-        from: min15ago.toDate(),
+        from: min15ago,
         to: this.now,
         value: 15,
         unit: "minutes",
@@ -47,7 +47,7 @@ export class Check15min implements LimitChecker {
       unlimitAt:
         thresholdCheckin == null
           ? null
-          : createdAt2DayJs(thresholdCheckin.createdAt).add(15, "minute").toDate(),
+          : addMinutes(createdAt2Date(thresholdCheckin.createdAt), 15),
     };
   }
 
