@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CheckinDetails from "~/components/checkin-details";
 import LimitCheckResults from "~/components/limit-check-results";
 import NowDate from "~/components/now-date";
+import { Button } from "~/components/ui/button";
 import { checkAllLimits } from "~/lib/functions";
 import type { AllLimitCheckResult } from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
@@ -101,14 +102,14 @@ const Home: NextPage = () => {
           <NowDate interval={1000}></NowDate>
 
           <div className="buttons mt-1">
-            <button
-              className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+            <Button
+              className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700"
+              size="lg"
               disabled={token === ""}
               onClick={pullCheckins}
-              type="button"
             >
               履歴取得
-            </button>
+            </Button>
           </div>
         </div>
 
