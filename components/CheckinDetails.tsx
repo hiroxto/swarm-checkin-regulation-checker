@@ -1,6 +1,6 @@
 import { CHECKIN_LIMIT_TITLES } from "~/lib/consts";
 import type { AllLimitCheckResult } from "~/types/app";
-import CheckinDetail from "./checkin-detail";
+import CheckinDetail from "./CheckinDetail";
 
 interface Props {
   limitCheckResult: AllLimitCheckResult;
