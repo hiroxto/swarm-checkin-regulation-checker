@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import CheckinHistories from "~/components/CheckinHistories";
 import CheckinDetails from "~/components/checkin-details";
 import LimitCheckResults from "~/components/limit-check-results";
 import NowDate from "~/components/now-date";
@@ -118,6 +119,7 @@ const Home: NextPage = () => {
         <Tabs defaultValue="limits">
           <TabsList>
             <TabsTrigger value="limits">規制状況</TabsTrigger>
+            <TabsTrigger value="history">チェックイン履歴</TabsTrigger>
             <TabsTrigger value="setting">設定</TabsTrigger>
           </TabsList>
           <TabsContent value="limits">
@@ -127,6 +129,12 @@ const Home: NextPage = () => {
             <CheckinDetails
               limitCheckResult={limitCheckResult}
             ></CheckinDetails>
+          </TabsContent>
+          <TabsContent value="history">
+            <CheckinHistories
+              checkins={checkins}
+              now={new Date()}
+            ></CheckinHistories>
           </TabsContent>
           <TabsContent value="setting">
             <div className="mt-10 mb-5">
