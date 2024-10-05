@@ -5,15 +5,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CheckinItem } from "../types/foursquare";
 import { AllLimitChecker } from "../lib/all-limit-checker";
 import type { AllLimitCheckResult } from "../types/app";
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
 import { useRouter } from "next/router";
 import CheckinDetails from "../components/checkin-details";
 import LimitCheckResults from "../components/limit-check-results";
 import NowDate from "../components/now-date";
-dayjs.extend(timezone);
-// eslint-disable-next-line
-dayjs.extend(require("dayjs/plugin/utc"));
 
 const Home: NextPage = () => {
   const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";

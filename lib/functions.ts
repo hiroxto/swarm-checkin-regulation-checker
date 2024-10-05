@@ -1,16 +1,12 @@
-import dayjs from "dayjs";
+import { format } from "date-fns-tz";
 
 /**
  * Dateを表示用にフォーマットする
- *
- * @param date
  */
-export const date2String = (date: Date | dayjs.Dayjs): string =>
-  dayjs(date).tz("Asia/Tokyo").format("YYYY-MM-DD HH:mm:ss");
+export const date2String = (date: Date): string =>
+  format(date, "yyyy-MM-dd HH:mm:ss", { timeZone: "Asia/Tokyo" });
 
 /**
- * Swarmのcreated_atをDayJsに変換する
- *
- * @param createdAt
+ * Swarmのcreated_atをDateに変換する
  */
-export const createdAt2DayJs = (createdAt: number): dayjs.Dayjs => dayjs(createdAt * 1000);
+export const createdAt2Date = (createdAt: number): Date => new Date(createdAt * 1000);

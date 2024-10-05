@@ -1,5 +1,7 @@
 import type { LimitCheckResult } from "../types/app";
-import { date2String, createdAt2DayJs } from "../lib/functions";
+import { date2String, createdAt2Date } from "../lib/functions";
+import { add } from "date-fns";
+import type { Duration } from "date-fns/types";
 
 interface Props {
   result: LimitCheckResult;
@@ -7,8 +9,26 @@ interface Props {
 
 const CheckinDetail = (props: Props) => {
   const result = props.result;
-  const computeLimitDay = (createdAt: number) =>
-    date2String(createdAt2DayJs(createdAt).add(result.period.value, result.period.unit));
+  const periodToDuration = (value: number, unit: "minutes" | "days"): Duration => {
+    switch (unit) {
+      case "minutes":
+        return {
+          minutes: value,
+        };
+      case "days":
+        return {
+          days: value,
+        };
+    }
+  };
+  const computeLimitDay = (createdAt: number) => {
+    const date = add(
+      createdAt2Date(createdAt),
+      periodToDuration(result.period.value, result.period.unit),
+    );
+
+    return date2String(date);
+  };
   const isLimited = (checkinNumber: number) => checkinNumber >= result.limit;
 
   return (
@@ -41,7 +61,7 @@ const CheckinDetail = (props: Props) => {
               key={checkin.id}
             >
               <th className="border-r">{checkinIndex + 1}</th>
-              <th className="border-r">{date2String(createdAt2DayJs(checkin.createdAt))}</th>
+              <th className="border-r">{date2String(createdAt2Date(checkin.createdAt))}</th>
               <th className="border-r">{checkin.venue.name}</th>
               <th className="border-r">{computeLimitDay(checkin.createdAt)}</th>
             </tr>
