@@ -4,12 +4,12 @@ on:
   pull_request:
 
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [ 20 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +40,122 @@ jobs:
             ${{ runner.os }}-${{ env.cache-name }}
 
       - run: pnpm install --frozen-lockfile
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs:
+      - prepare
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Restore cache pnpm store
+        uses: actions/cache/restore@v4
+        env:
+          cache-name: pnpm-store
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}
+
+      - run: pnpm install --frozen-lockfile
       - run: pnpm run build
-      - run: pnpm run lint
-      - run: pnpm run format
+
+  check:
+    runs-on: ubuntu-latest
+
+    needs:
+      - prepare
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Restore cache pnpm store
+        uses: actions/cache/restore@v4
+        env:
+          cache-name: pnpm-store
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check
+
+  test:
+    runs-on: ubuntu-latest
+
+    needs:
+      - prepare
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Restore cache pnpm store
+        uses: actions/cache/restore@v4
+        env:
+          cache-name: pnpm-store
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}
+
+      - run: pnpm install --frozen-lockfile
       - run: pnpm run test
