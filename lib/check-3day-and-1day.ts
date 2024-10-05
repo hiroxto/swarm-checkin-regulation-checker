@@ -1,7 +1,7 @@
-import type { LimitChecker, LimitCheckResult } from "../types/app";
+import { addDays, isAfter, subDays } from "date-fns";
+import type { LimitCheckResult, LimitChecker } from "../types/app";
 import type { CheckinItem } from "../types/foursquare";
 import { createdAt2Date } from "./functions";
-import { addDays, isAfter, subDays } from "date-fns";
 
 /**
  * 1日(24時間)に30回でのチェックイン規制を確認するクラス
@@ -45,7 +45,9 @@ export class Check3dayAnd1day implements LimitChecker {
       },
       isLimited: this.isLimited(matchCheckins.length),
       unlimitAt:
-        thresholdCheckin == null ? null : addDays(createdAt2Date(thresholdCheckin.createdAt), 1),
+        thresholdCheckin == null
+          ? null
+          : addDays(createdAt2Date(thresholdCheckin.createdAt), 1),
     };
   }
 

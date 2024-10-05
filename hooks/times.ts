@@ -13,7 +13,7 @@ export const useTime = ({ interval }: HookArgs) => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [time, setTime, interval]);
+  }, [interval]);
 
   return { time };
 };

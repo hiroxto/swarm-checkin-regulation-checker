@@ -9,4 +9,5 @@ export const date2String = (date: Date): string =>
 /**
  * Swarmのcreated_atをDateに変換する
  */
-export const createdAt2Date = (createdAt: number): Date => new Date(createdAt * 1000);
+export const createdAt2Date = (createdAt: number): Date =>
+  new Date(createdAt * 1000);

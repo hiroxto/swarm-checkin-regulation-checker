@@ -1,10 +1,13 @@
-import { describe, it, expect } from "vitest";
-import { createdAt2Date, date2String } from "../../lib/functions";
 import { toZonedTime } from "date-fns-tz";
+import { describe, expect, it } from "vitest";
+import { createdAt2Date, date2String } from "../../lib/functions";
 
 describe("date2String()", () => {
   it("日本時間のDateを日本時間の文字列にフォーマットできること", () => {
-    const date = toZonedTime(new Date("2024-10-01T12:34:56+09:00"), "Asia/Tokyo");
+    const date = toZonedTime(
+      new Date("2024-10-01T12:34:56+09:00"),
+      "Asia/Tokyo",
+    );
 
     expect(date2String(date)).toBe("2024-10-01 12:34:56");
   });

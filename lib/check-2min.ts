@@ -1,7 +1,7 @@
-import type { LimitChecker, LimitCheckResult } from "../types/app";
+import { addMinutes, isAfter, subMinutes } from "date-fns";
+import type { LimitCheckResult, LimitChecker } from "../types/app";
 import type { CheckinItem } from "../types/foursquare";
 import { createdAt2Date } from "./functions";
-import { addMinutes, isAfter, subMinutes } from "date-fns";
 
 /**
  * 2分間に5回でのチェックイン規制を確認するクラス
@@ -45,7 +45,9 @@ export class Check2min implements LimitChecker {
       },
       isLimited: this.isLimited(matchCheckins.length),
       unlimitAt:
-        thresholdCheckin == null ? null : addMinutes(createdAt2Date(thresholdCheckin.createdAt), 2),
+        thresholdCheckin == null
+          ? null
+          : addMinutes(createdAt2Date(thresholdCheckin.createdAt), 2),
     };
   }
 

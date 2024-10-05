@@ -1,7 +1,7 @@
-import type { LimitCheckResult } from "../types/app";
-import { date2String, createdAt2Date } from "../lib/functions";
 import { add } from "date-fns";
 import type { Duration } from "date-fns/types";
+import { createdAt2Date, date2String } from "../lib/functions";
+import type { LimitCheckResult } from "../types/app";
 
 interface Props {
   result: LimitCheckResult;
@@ -9,7 +9,10 @@ interface Props {
 
 const CheckinDetail = (props: Props) => {
   const result = props.result;
-  const periodToDuration = (value: number, unit: "minutes" | "days"): Duration => {
+  const periodToDuration = (
+    value: number,
+    unit: "minutes" | "days",
+  ): Duration => {
     switch (unit) {
       case "minutes":
         return {
@@ -34,10 +37,13 @@ const CheckinDetail = (props: Props) => {
   return (
     <div className="mb-5">
       <div className="sticky top-28 z-10 bg-white">
-        <h3 className="text-2xl font-semibold text-indigo-400">{result.title}</h3>
+        <h3 className="text-2xl font-semibold text-indigo-400">
+          {result.title}
+        </h3>
         <p>チェックイン数: {result.checkinsCount}</p>
         <p className="mb-2">
-          期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
+          期間: {date2String(result.period.from)} から{" "}
+          {date2String(result.period.to)} まで
         </p>
       </div>
 
@@ -61,7 +67,9 @@ const CheckinDetail = (props: Props) => {
               key={checkin.id}
             >
               <th className="border-r">{checkinIndex + 1}</th>
-              <th className="border-r">{date2String(createdAt2Date(checkin.createdAt))}</th>
+              <th className="border-r">
+                {date2String(createdAt2Date(checkin.createdAt))}
+              </th>
               <th className="border-r">{checkin.venue.name}</th>
               <th className="border-r">{computeLimitDay(checkin.createdAt)}</th>
             </tr>
