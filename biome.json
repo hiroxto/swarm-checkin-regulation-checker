@@ -22,9 +22,6 @@
       "recommended": true,
       "style": {
         "useSelfClosingElements": "off"
-      },
-      "suspicious": {
-        "noArrayIndexKey": "off"
       }
     }
   },
