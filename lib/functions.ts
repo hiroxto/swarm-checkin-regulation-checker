@@ -1,6 +1,8 @@
+import { add, isAfter, sub } from "date-fns";
 import { format } from "date-fns-tz";
 import type { Duration } from "date-fns/types";
-import type { PeriodUnit } from "~/types/app";
+import type { NewLimitCheckResult, PeriodUnit } from "~/types/app";
+import type { CheckinItem } from "~/types/foursquare";
 
 /**
  * Dateを表示用にフォーマットする
@@ -25,4 +27,38 @@ export const periodToDuration = (value: number, unit: PeriodUnit): Duration => {
         days: value,
       };
   }
+};
+
+/**
+ * チェックイン規制に引っ掛かっているかを確認する
+ */
+export const checkLimits = (
+  checkins: CheckinItem[],
+  now: Date,
+  checkinLimit: number,
+  periodValue: number,
+  periodUnit: PeriodUnit,
+): NewLimitCheckResult => {
+  const duration = periodToDuration(periodValue, periodUnit);
+  const limitDate = sub(now, duration);
+  const limitingCheckins = checkins.filter((checkin) =>
+    isAfter(createdAt2Date(checkin.createdAt), limitDate),
+  );
+  const thresholdCheckin = limitingCheckins[checkinLimit - 1];
+
+  return {
+    limit: checkinLimit,
+    checkins: limitingCheckins,
+    period: {
+      from: limitDate,
+      to: now,
+      value: periodValue,
+      unit: periodUnit,
+    },
+    isLimited: limitingCheckins.length >= checkinLimit,
+    unLimitingAt:
+      thresholdCheckin == null
+        ? null
+        : add(createdAt2Date(thresholdCheckin.createdAt), duration),
+  };
 };

@@ -34,3 +34,16 @@ export interface AllLimitCheckResult {
 export interface LimitChecker {
   check(): LimitCheckResult;
 }
+
+export interface NewLimitCheckResult {
+  limit: number;
+  checkins: CheckinItem[];
+  period: {
+    from: Date;
+    to: Date;
+    value: number;
+    unit: PeriodUnit;
+  };
+  isLimited: boolean;
+  unLimitingAt: Date | null;
+}
