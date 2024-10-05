@@ -19,9 +19,7 @@ const Home: NextPage = () => {
   const setViaQuery = useRef(false);
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
-  const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult>(
-    checkAllLimits([], new Date()),
-  );
+  const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult>(checkAllLimits([], new Date()));
 
   const getCheckins = (): Promise<CheckinItem[]> => {
     const params = {
@@ -75,31 +73,20 @@ const Home: NextPage = () => {
     <div className="bg-white px-5 py-5">
       <Head>
         <title>Swarm コイン規制チェッカー</title>
-        <meta
-          content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール"
-          name="description"
-        />
+        <meta content="Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール" name="description" />
         <meta content="telephone=no" name="format-detection" />
       </Head>
 
       <main className="relative">
         <div className="mb-5">
-          <h1 className="text-4xl font-semibold text-indigo-600">
-            Swarm コイン規制チェッカー
-          </h1>
+          <h1 className="text-4xl font-semibold text-indigo-600">Swarm コイン規制チェッカー</h1>
 
-          <p>
-            Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
-          </p>
+          <p>Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール</p>
         </div>
 
         <div className="sticky top-0 z-30 bg-white pb-3">
-          <p
-            className={`${limitCheckResult.isLimited ? "text-red-500" : "text-gray-900"}`}
-          >
-            {limitCheckResult.isLimited
-              ? "規制されています"
-              : "規制されていません"}
+          <p className={`${limitCheckResult.isLimited ? "text-red-500" : "text-gray-900"}`}>
+            {limitCheckResult.isLimited ? "規制されています" : "規制されていません"}
           </p>
 
           <CurrentTime></CurrentTime>
@@ -123,27 +110,17 @@ const Home: NextPage = () => {
             <TabsTrigger value="setting">設定</TabsTrigger>
           </TabsList>
           <TabsContent value="limits">
-            <LimitCheckResults
-              allLimitCheckResult={limitCheckResult}
-            ></LimitCheckResults>
-            <CheckinDetails
-              limitCheckResult={limitCheckResult}
-            ></CheckinDetails>
+            <LimitCheckResults allLimitCheckResult={limitCheckResult}></LimitCheckResults>
+            <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>
           </TabsContent>
           <TabsContent value="history">
-            <CheckinHistories
-              checkins={checkins}
-              now={new Date()}
-            ></CheckinHistories>
+            <CheckinHistories checkins={checkins} now={new Date()}></CheckinHistories>
           </TabsContent>
           <TabsContent value="setting">
             <div className="mt-10 mb-5">
               <h2 className="text-3xl font-semibold text-indigo-600">設定</h2>
 
-              <label
-                className="block text-sm font-medium text-gray-700"
-                htmlFor="price"
-              >
+              <label className="block text-sm font-medium text-gray-700" htmlFor="price">
                 APIトークン
               </label>
               <div className="relative mt-1 rounded-md shadow-sm">

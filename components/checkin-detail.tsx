@@ -9,26 +9,19 @@ interface Props {
 
 const CheckinDetail = (props: Props) => {
   const computeLimitDay = (createdAt: number) => {
-    const date = add(
-      createdAt2Date(createdAt),
-      periodToDuration(props.result.period.value, props.result.period.unit),
-    );
+    const date = add(createdAt2Date(createdAt), periodToDuration(props.result.period.value, props.result.period.unit));
 
     return date2String(date);
   };
-  const isLimited = (checkinNumber: number) =>
-    checkinNumber >= props.result.limit;
+  const isLimited = (checkinNumber: number) => checkinNumber >= props.result.limit;
 
   return (
     <div className="mb-5">
       <div className="sticky top-28 z-10 bg-white">
-        <h3 className="text-2xl font-semibold text-indigo-400">
-          {props.title}
-        </h3>
+        <h3 className="text-2xl font-semibold text-indigo-400">{props.title}</h3>
         <p>チェックイン数: {props.result.checkins.length}</p>
         <p className="mb-2">
-          期間: {date2String(props.result.period.from)} から{" "}
-          {date2String(props.result.period.to)} まで
+          期間: {date2String(props.result.period.from)} から {date2String(props.result.period.to)} まで
         </p>
       </div>
 
@@ -45,16 +38,12 @@ const CheckinDetail = (props: Props) => {
           {props.result.checkins.map((checkin, checkinIndex) => (
             <tr
               className={
-                isLimited(checkinIndex + 1)
-                  ? "bg-red-100 hover:bg-red-200 border"
-                  : "hover:bg-gray-100 border"
+                isLimited(checkinIndex + 1) ? "bg-red-100 hover:bg-red-200 border" : "hover:bg-gray-100 border"
               }
               key={checkin.id}
             >
               <th className="border-r">{checkinIndex + 1}</th>
-              <th className="border-r">
-                {date2String(createdAt2Date(checkin.createdAt))}
-              </th>
+              <th className="border-r">{date2String(createdAt2Date(checkin.createdAt))}</th>
               <th className="border-r">{checkin.venue.name}</th>
               <th className="border-r">{computeLimitDay(checkin.createdAt)}</th>
             </tr>
