@@ -21,9 +21,7 @@ const CheckinHistories = (props: Props) => {
 
   return (
     <div className="mt-10 mb-5">
-      <h2 className="text-3xl font-semibold text-indigo-600">
-        チェックイン履歴
-      </h2>
+      <h2 className="text-3xl font-semibold text-indigo-600">チェックイン履歴</h2>
 
       <CheckinHistory
         title="本日のチェックイン一覧"
