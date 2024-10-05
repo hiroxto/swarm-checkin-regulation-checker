@@ -1,7 +1,11 @@
 import { add, isAfter, sub } from "date-fns";
 import { format } from "date-fns-tz";
 import type { Duration } from "date-fns/types";
-import type { NewLimitCheckResult, PeriodUnit } from "~/types/app";
+import type {
+  NewAllLimitCheckResult,
+  NewLimitCheckResult,
+  PeriodUnit,
+} from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
 
 /**
@@ -30,7 +34,7 @@ export const periodToDuration = (value: number, unit: PeriodUnit): Duration => {
 };
 
 /**
- * チェックイン規制に引っ掛かっているかを確認する
+ * 指定した期間内のチェックイン規制に引っ掛かっているかを確認する
  */
 export const checkLimits = (
   checkins: CheckinItem[],
@@ -60,5 +64,37 @@ export const checkLimits = (
       thresholdCheckin == null
         ? null
         : add(createdAt2Date(thresholdCheckin.createdAt), duration),
+  };
+};
+
+/**
+ * Swarmの規制に引っ掛かっているかを確認する
+ */
+export const checkAllLimits = (
+  checkins: CheckinItem[],
+  now: Date,
+): NewAllLimitCheckResult => {
+  const m2 = checkLimits(checkins, now, 5, 2, "minutes");
+  const m15 = checkLimits(checkins, now, 8, 15, "minutes");
+  const d1 = checkLimits(checkins, now, 50, 1, "days");
+  const d3 = checkLimits(checkins, now, 90, 3, "days");
+  const d3d1 = checkLimits(checkins, now, 30, 1, "days");
+
+  const isLimited = [
+    m2.isLimited,
+    m15.isLimited,
+    d1.isLimited,
+    d3.isLimited && d3d1.isLimited,
+  ].some((v) => v);
+
+  return {
+    limits: {
+      m2,
+      m15,
+      d1,
+      d3,
+      d3d1,
+    },
+    isLimited,
   };
 };

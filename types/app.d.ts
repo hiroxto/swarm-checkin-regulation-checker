@@ -47,3 +47,14 @@ export interface NewLimitCheckResult {
   isLimited: boolean;
   unLimitingAt: Date | null;
 }
+
+export interface NewAllLimitCheckResult {
+  limits: {
+    m2: NewLimitCheckResult;
+    m15: NewLimitCheckResult;
+    d1: NewLimitCheckResult;
+    d3: NewLimitCheckResult;
+    d3d1: NewLimitCheckResult;
+  };
+  isLimited: boolean;
+}
