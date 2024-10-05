@@ -70,7 +70,7 @@ const Home: NextPage = () => {
     }, 1000);
 
     return () => clearInterval(id);
-  }, [router, token, checkins, checkLimits]);
+  }, [router, checkLimits]);
 
   return (
     <div className="bg-white px-5 py-5">
