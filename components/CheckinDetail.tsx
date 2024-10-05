@@ -7,21 +7,21 @@ interface Props {
   result: LimitCheckResult;
 }
 
-const CheckinDetail = (props: Props) => {
+const CheckinDetail = ({ title, result }: Props) => {
   const computeLimitDay = (createdAt: number) => {
-    const date = add(createdAt2Date(createdAt), periodToDuration(props.result.period.value, props.result.period.unit));
+    const date = add(createdAt2Date(createdAt), periodToDuration(result.period.value, result.period.unit));
 
     return date2String(date);
   };
-  const isLimited = (checkinNumber: number) => checkinNumber >= props.result.limit;
+  const isLimited = (checkinNumber: number) => checkinNumber >= result.limit;
 
   return (
     <div className="mb-5">
       <div className="sticky top-28 z-10 bg-white">
-        <h3 className="text-2xl font-semibold text-indigo-400">{props.title}</h3>
-        <p>チェックイン数: {props.result.checkins.length}</p>
+        <h3 className="text-2xl font-semibold text-indigo-400">{title}</h3>
+        <p>チェックイン数: {result.checkins.length}</p>
         <p className="mb-2">
-          期間: {date2String(props.result.period.from)} から {date2String(props.result.period.to)} まで
+          期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
         </p>
       </div>
 
@@ -35,7 +35,7 @@ const CheckinDetail = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.result.checkins.map((checkin, checkinIndex) => (
+          {result.checkins.map((checkin, checkinIndex) => (
             <tr
               className={
                 isLimited(checkinIndex + 1) ? "bg-red-100 hover:bg-red-200 border" : "hover:bg-gray-100 border"
