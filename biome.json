@@ -30,7 +30,8 @@
       "quoteStyle": "double",
       "indentWidth": 2,
       "indentStyle": "space",
-      "arrowParentheses": "asNeeded"
+      "arrowParentheses": "asNeeded",
+      "lineWidth": 120
     }
   }
 }
