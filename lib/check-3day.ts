@@ -1,7 +1,6 @@
-import { addDays, isAfter, subDays } from "date-fns";
 import type { LimitCheckResult, LimitChecker } from "../types/app";
 import type { CheckinItem } from "../types/foursquare";
-import { createdAt2Date } from "./functions";
+import { checkLimits } from "./functions";
 
 /**
  * 3日(72時間)に90回でのチェックイン規制を確認するクラス
@@ -26,38 +25,19 @@ export class Check3day implements LimitChecker {
    * 3日(72時間)に90回のチェックインが行われているかをチェックする
    */
   check(): LimitCheckResult {
-    const day3ago = subDays(this.now, 3);
-    const matchCheckins: CheckinItem[] = this.checkins.filter((checkin) =>
-      isAfter(createdAt2Date(checkin.createdAt), day3ago),
+    const newCheckerResult = checkLimits(
+      this.checkins,
+      this.now,
+      this.CHECKIN_LIMIT,
+      3,
+      "days",
     );
-    const thresholdCheckin = matchCheckins[this.CHECKIN_LIMIT - 1];
 
     return {
+      ...newCheckerResult,
       title: this.TITLE,
-      limit: this.CHECKIN_LIMIT,
-      checkins: matchCheckins,
-      checkinsCount: matchCheckins.length,
-      period: {
-        from: day3ago,
-        to: this.now,
-        value: 3,
-        unit: "days",
-      },
-      isLimited: this.isLimited(matchCheckins.length),
-      unlimitAt:
-        thresholdCheckin == null
-          ? null
-          : addDays(createdAt2Date(thresholdCheckin.createdAt), 3),
+      checkinsCount: newCheckerResult.checkins.length,
+      unlimitAt: newCheckerResult.unLimitingAt,
     };
-  }
-
-  /**
-   * 与えたチェックイン数が規制上限に引っ掛かっているかを確認する
-   *
-   * @param checkinsCount
-   * @private
-   */
-  private isLimited(checkinsCount: number): boolean {
-    return checkinsCount >= this.CHECKIN_LIMIT;
   }
 }
