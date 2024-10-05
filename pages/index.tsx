@@ -3,12 +3,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { checkAllLimits } from "~/lib/functions";
-import type { AllLimitCheckResult } from "~/types/app";
-import type { CheckinItem } from "~/types/foursquare";
 import CheckinDetails from "~/components/checkin-details";
 import LimitCheckResults from "~/components/limit-check-results";
 import NowDate from "~/components/now-date";
+import { checkAllLimits } from "~/lib/functions";
+import type { AllLimitCheckResult } from "~/types/app";
+import type { CheckinItem } from "~/types/foursquare";
 
 const Home: NextPage = () => {
   const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";
