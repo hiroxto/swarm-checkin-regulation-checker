@@ -106,6 +106,7 @@ const Home: NextPage = () => {
               className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
               disabled={token === ""}
               onClick={pullCheckins}
+              type="button"
             >
               履歴取得
             </button>
