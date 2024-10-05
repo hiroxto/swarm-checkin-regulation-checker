@@ -2,8 +2,8 @@ import { add, isAfter, sub } from "date-fns";
 import { format } from "date-fns-tz";
 import type { Duration } from "date-fns/types";
 import type {
-  NewAllLimitCheckResult,
-  NewLimitCheckResult,
+  AllLimitCheckResult,
+  LimitCheckResult,
   PeriodUnit,
 } from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
@@ -42,7 +42,7 @@ export const checkLimits = (
   checkinLimit: number,
   periodValue: number,
   periodUnit: PeriodUnit,
-): NewLimitCheckResult => {
+): LimitCheckResult => {
   const duration = periodToDuration(periodValue, periodUnit);
   const limitDate = sub(now, duration);
   const limitingCheckins = checkins.filter((checkin) =>
@@ -73,7 +73,7 @@ export const checkLimits = (
 export const checkAllLimits = (
   checkins: CheckinItem[],
   now: Date,
-): NewAllLimitCheckResult => {
+): AllLimitCheckResult => {
   const m2 = checkLimits(checkins, now, 5, 2, "minutes");
   const m15 = checkLimits(checkins, now, 8, 15, "minutes");
   const d1 = checkLimits(checkins, now, 50, 1, "days");

@@ -3,12 +3,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import CheckinDetails from "../components/checkin-details";
-import LimitCheckResults from "../components/limit-check-results";
-import NowDate from "../components/now-date";
-import { AllLimitChecker } from "../lib/all-limit-checker";
-import type { AllLimitCheckResult } from "../types/app";
-import type { CheckinItem } from "../types/foursquare";
+import { checkAllLimits } from "~/lib/functions";
+import type { AllLimitCheckResult } from "~/types/app";
+import type { CheckinItem } from "~/types/foursquare";
+import CheckinDetails from "~/components/checkin-details";
+import LimitCheckResults from "~/components/limit-check-results";
+import NowDate from "~/components/now-date";
 
 const Home: NextPage = () => {
   const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";
@@ -50,8 +50,7 @@ const Home: NextPage = () => {
     setCheckins(checkins);
   };
   const checkLimits = useCallback(() => {
-    const checker = new AllLimitChecker(checkins);
-    const result = checker.check();
+    const result = checkAllLimits(checkins, new Date());
     setLimitCheckResult(result);
   }, [checkins]);
 
