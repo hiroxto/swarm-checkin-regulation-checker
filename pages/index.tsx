@@ -33,14 +33,14 @@ const Home: NextPage = () => {
 
     return axios
       .get(ENDPOINT, { params })
-      .then((response) => {
+      .then(response => {
         if (response.status !== 200) {
           throw new Error("APIコールでエラー");
         }
 
         return response.data.response.checkins.items;
       })
-      .catch((e) => {
+      .catch(e => {
         alert(e);
       });
   };
@@ -125,7 +125,7 @@ const Home: NextPage = () => {
             <input
               className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
               name="oauth-token"
-              onChange={(event) => setToken(event.target.value)}
+              onChange={event => setToken(event.target.value)}
               placeholder="Token"
               type="text"
               value={token}

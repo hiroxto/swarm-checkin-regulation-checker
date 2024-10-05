@@ -45,7 +45,7 @@ export const checkLimits = (
 ): LimitCheckResult => {
   const duration = periodToDuration(periodValue, periodUnit);
   const limitDate = sub(now, duration);
-  const limitingCheckins = checkins.filter((checkin) =>
+  const limitingCheckins = checkins.filter(checkin =>
     isAfter(createdAt2Date(checkin.createdAt), limitDate),
   );
   const thresholdCheckin = limitingCheckins[checkinLimit - 1];
@@ -85,7 +85,7 @@ export const checkAllLimits = (
     m15.isLimited,
     d1.isLimited,
     d3.isLimited && d3d1.isLimited,
-  ].some((v) => v);
+  ].some(v => v);
 
   return {
     limits: {
