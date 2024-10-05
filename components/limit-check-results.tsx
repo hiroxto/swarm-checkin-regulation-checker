@@ -9,7 +9,9 @@ const LimitCheckResults = (props: Props) => {
   const limitCheckResult = props.allLimitCheckResult;
   const notLimitedTextColor = "text-gray-900";
   const limitedTextColor = "text-red-500";
-  const textColor = limitCheckResult.isLimited ? limitedTextColor : notLimitedTextColor;
+  const textColor = limitCheckResult.isLimited
+    ? limitedTextColor
+    : notLimitedTextColor;
 
   return (
     <div className="mt-10 mb-5">
@@ -20,7 +22,10 @@ const LimitCheckResults = (props: Props) => {
 
       <div className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
         {limitCheckResult.results.map((result, index) => (
-          <LimitCheckResult key={index} limitCheckResult={result}></LimitCheckResult>
+          <LimitCheckResult
+            key={index}
+            limitCheckResult={result}
+          ></LimitCheckResult>
         ))}
       </div>
     </div>

@@ -1,6 +1,6 @@
-import { date2String } from "../lib/functions";
 import { useEffect, useState } from "react";
 import { useTime } from "../hooks/times";
+import { date2String } from "../lib/functions";
 
 interface Props {
   interval: number;
@@ -13,7 +13,8 @@ const NowDate = (props: Props) => {
 
   return (
     <p className="pt-2">
-      現在時刻: {isClient ? date2String(new Date(time)) : "date is not available"}
+      現在時刻:{" "}
+      {isClient ? date2String(new Date(time)) : "date is not available"}
     </p>
   );
 };

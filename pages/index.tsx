@@ -1,14 +1,14 @@
+import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
-import axios from "axios";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { CheckinItem } from "../types/foursquare";
-import { AllLimitChecker } from "../lib/all-limit-checker";
-import type { AllLimitCheckResult } from "../types/app";
 import { useRouter } from "next/router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CheckinDetails from "../components/checkin-details";
 import LimitCheckResults from "../components/limit-check-results";
 import NowDate from "../components/now-date";
+import { AllLimitChecker } from "../lib/all-limit-checker";
+import type { AllLimitCheckResult } from "../types/app";
+import type { CheckinItem } from "../types/foursquare";
 
 const Home: NextPage = () => {
   const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";
@@ -16,7 +16,8 @@ const Home: NextPage = () => {
   const setViaQuery = useRef(false);
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
-  const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult | null>(null);
+  const [limitCheckResult, setLimitCheckResult] =
+    useState<AllLimitCheckResult | null>(null);
   const isLimited = useMemo<boolean>(
     () => (limitCheckResult === null ? false : limitCheckResult.isLimited),
     [limitCheckResult],
@@ -84,9 +85,13 @@ const Home: NextPage = () => {
 
       <main className="relative">
         <div className="mb-5">
-          <h1 className="text-4xl font-semibold text-indigo-600">Swarm コイン規制チェッカー</h1>
+          <h1 className="text-4xl font-semibold text-indigo-600">
+            Swarm コイン規制チェッカー
+          </h1>
 
-          <p>Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール</p>
+          <p>
+            Swarmでチェックインした際に貰えるコインが規制されているかを確認するツール
+          </p>
         </div>
 
         <div className="sticky top-0 z-30 bg-white pb-3">
@@ -110,7 +115,10 @@ const Home: NextPage = () => {
         <div className="mb-5">
           <h2 className="text-3xl font-semibold text-indigo-600">設定</h2>
 
-          <label className="block text-sm font-medium text-gray-700" htmlFor="price">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="price"
+          >
             APIトークン
           </label>
           <div className="relative mt-1 rounded-md shadow-sm">
@@ -126,7 +134,9 @@ const Home: NextPage = () => {
         </div>
 
         {limitCheckResult !== null && (
-          <LimitCheckResults allLimitCheckResult={limitCheckResult}></LimitCheckResults>
+          <LimitCheckResults
+            allLimitCheckResult={limitCheckResult}
+          ></LimitCheckResults>
         )}
         {limitCheckResult !== null && (
           <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>

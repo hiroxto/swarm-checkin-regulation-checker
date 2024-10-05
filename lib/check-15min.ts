@@ -1,7 +1,7 @@
-import type { LimitChecker, LimitCheckResult } from "../types/app";
+import { addMinutes, isAfter, subMinutes } from "date-fns";
+import type { LimitCheckResult, LimitChecker } from "../types/app";
 import type { CheckinItem } from "../types/foursquare";
 import { createdAt2Date } from "./functions";
-import { addMinutes, isAfter, subMinutes } from "date-fns";
 
 /**
  * 15分間に8回でのチェックイン規制を確認するクラス

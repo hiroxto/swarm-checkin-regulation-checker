@@ -1,10 +1,10 @@
-import type { CheckinItem } from "../types/foursquare";
 import type { AllLimitCheckResult } from "../types/app";
-import { Check2min } from "./check-2min";
-import { Check15min } from "./check-15min";
+import type { CheckinItem } from "../types/foursquare";
 import { Check1day } from "./check-1day";
+import { Check2min } from "./check-2min";
 import { Check3day } from "./check-3day";
 import { Check3dayAnd1day } from "./check-3day-and-1day";
+import { Check15min } from "./check-15min";
 
 export class AllLimitChecker {
   constructor(private checkins: CheckinItem[]) {}

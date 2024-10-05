@@ -1,6 +1,9 @@
-import { type LimitCheckResult } from "../types/app";
-import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import { date2String } from "../lib/functions";
+import type { LimitCheckResult } from "../types/app";
 
 interface Props {
   limitCheckResult: LimitCheckResult;
@@ -10,7 +13,10 @@ const LimitCheckResult = (props: Props) => {
   const result = props.limitCheckResult;
   const notLimitedIcon = <CheckIcon aria-hidden="true" className="h-6 w-6" />;
   const limitedIcon = (
-    <ExclamationTriangleIcon aria-hidden="true" className="h-6 w-6 text-red-300" />
+    <ExclamationTriangleIcon
+      aria-hidden="true"
+      className="h-6 w-6 text-red-300"
+    />
   );
   const notLimitedTextColor = "text-gray-900";
   const limitedTextColor = "text-red-500";
@@ -32,7 +38,8 @@ const LimitCheckResult = (props: Props) => {
         対象チェックイン期間: {date2String(result.period.from)}
       </div>
       <div className={`ml-16 text-base ${textColor}`}>
-        規制解除: {result.unlimitAt == null ? "N/A" : date2String(result.unlimitAt)}
+        規制解除:{" "}
+        {result.unlimitAt == null ? "N/A" : date2String(result.unlimitAt)}
       </div>
     </div>
   );
