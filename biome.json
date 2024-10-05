@@ -32,7 +32,8 @@
     "formatter": {
       "quoteStyle": "double",
       "indentWidth": 2,
-      "indentStyle": "space"
+      "indentStyle": "space",
+      "arrowParentheses": "asNeeded"
     }
   }
 }
