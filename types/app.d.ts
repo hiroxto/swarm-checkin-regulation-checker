@@ -1,34 +1,29 @@
 import type { CheckinItem } from "./foursquare";
 
-/**
- * 規制の確認結果のオブジェクト
- */
+type PeriodUnit = "minutes" | "days";
+
 export interface LimitCheckResult {
-  title: string;
   limit: number;
   checkins: CheckinItem[];
-  checkinsCount: number;
   period: {
     from: Date;
     to: Date;
     value: number;
-    unit: "minutes" | "days";
+    unit: PeriodUnit;
   };
   isLimited: boolean;
-  unlimitAt: Date | null;
+  unLimitingAt: Date | null;
 }
 
-/**
- * トータルの規制の確認結果のオブジェクト
- */
+export interface CheckinLimits {
+  m2: NewLimitCheckResult;
+  m15: NewLimitCheckResult;
+  d1: NewLimitCheckResult;
+  d3: NewLimitCheckResult;
+  d3d1: NewLimitCheckResult;
+}
+
 export interface AllLimitCheckResult {
-  results: LimitCheckResult[];
+  limits: CheckinLimits;
   isLimited: boolean;
-}
-
-/**
- * 規制状況を判定するクラス
- */
-export interface LimitChecker {
-  check(): LimitCheckResult;
 }

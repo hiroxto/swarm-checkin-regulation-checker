@@ -1,4 +1,5 @@
-import type { AllLimitCheckResult } from "../types/app";
+import { CHECKIN_LIMIT_TITLES } from "~/lib/consts";
+import type { AllLimitCheckResult } from "~/types/app";
 import LimitCheckResult from "./limit-check-result";
 
 interface Props {
@@ -21,12 +22,26 @@ const LimitCheckResults = (props: Props) => {
       </p>
 
       <div className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 md:space-y-0">
-        {limitCheckResult.results.map((result, index) => (
-          <LimitCheckResult
-            key={index}
-            limitCheckResult={result}
-          ></LimitCheckResult>
-        ))}
+        <LimitCheckResult
+          title={CHECKIN_LIMIT_TITLES.m2}
+          limitCheckResult={limitCheckResult.limits.m2}
+        ></LimitCheckResult>
+        <LimitCheckResult
+          title={CHECKIN_LIMIT_TITLES.m15}
+          limitCheckResult={limitCheckResult.limits.m15}
+        ></LimitCheckResult>
+        <LimitCheckResult
+          title={CHECKIN_LIMIT_TITLES.d1}
+          limitCheckResult={limitCheckResult.limits.d1}
+        ></LimitCheckResult>
+        <LimitCheckResult
+          title={CHECKIN_LIMIT_TITLES.d3}
+          limitCheckResult={limitCheckResult.limits.d3}
+        ></LimitCheckResult>
+        <LimitCheckResult
+          title={CHECKIN_LIMIT_TITLES.d3d1}
+          limitCheckResult={limitCheckResult.limits.d3d1}
+        ></LimitCheckResult>
       </div>
     </div>
   );

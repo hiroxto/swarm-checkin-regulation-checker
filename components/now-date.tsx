@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useTime } from "../hooks/times";
-import { date2String } from "../lib/functions";
+import { useTime } from "~/hooks/times";
+import { date2String } from "~/lib/functions";
 
 interface Props {
   interval: number;
