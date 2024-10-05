@@ -3,7 +3,6 @@ import Head from "next/head";
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CheckinItem } from "../types/foursquare";
-import Footer from "../components/footer";
 import { AllLimitChecker } from "../lib/all-limit-checker";
 import type { AllLimitCheckResult } from "../types/app";
 import dayjs from "dayjs";
@@ -119,7 +118,6 @@ const Home: NextPage = () => {
 
         <div className="mb-5">
           <h2 className="text-3xl font-semibold text-indigo-600">設定</h2>
-          <p className="mb-2">チェックイン履歴を取得するためにAPIトークンが必要です。</p>
 
           <label className="block text-sm font-medium text-gray-700" htmlFor="price">
             APIトークン
@@ -143,8 +141,6 @@ const Home: NextPage = () => {
           <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 };
