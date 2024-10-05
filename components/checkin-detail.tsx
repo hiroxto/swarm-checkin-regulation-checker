@@ -1,7 +1,6 @@
 import { add } from "date-fns";
-import type { Duration } from "date-fns/types";
-import { createdAt2Date, date2String } from "../lib/functions";
-import type { LimitCheckResult } from "../types/app";
+import { createdAt2Date, date2String, periodToDuration } from "~/lib/functions";
+import type { LimitCheckResult } from "~/types/app";
 
 interface Props {
   result: LimitCheckResult;
@@ -9,21 +8,6 @@ interface Props {
 
 const CheckinDetail = (props: Props) => {
   const result = props.result;
-  const periodToDuration = (
-    value: number,
-    unit: "minutes" | "days",
-  ): Duration => {
-    switch (unit) {
-      case "minutes":
-        return {
-          minutes: value,
-        };
-      case "days":
-        return {
-          days: value,
-        };
-    }
-  };
   const computeLimitDay = (createdAt: number) => {
     const date = add(
       createdAt2Date(createdAt),
