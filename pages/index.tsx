@@ -6,6 +6,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CheckinDetails from "~/components/checkin-details";
 import LimitCheckResults from "~/components/limit-check-results";
 import NowDate from "~/components/now-date";
+import { Button } from "~/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { checkAllLimits } from "~/lib/functions";
 import type { AllLimitCheckResult } from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
@@ -16,11 +18,8 @@ const Home: NextPage = () => {
   const setViaQuery = useRef(false);
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
-  const [limitCheckResult, setLimitCheckResult] =
-    useState<AllLimitCheckResult | null>(null);
-  const isLimited = useMemo<boolean>(
-    () => (limitCheckResult === null ? false : limitCheckResult.isLimited),
-    [limitCheckResult],
+  const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult>(
+    checkAllLimits([], new Date()),
   );
 
   const getCheckins = (): Promise<CheckinItem[]> => {
@@ -94,53 +93,64 @@ const Home: NextPage = () => {
         </div>
 
         <div className="sticky top-0 z-30 bg-white pb-3">
-          <p className={`${isLimited ? "text-red-500" : "text-gray-900"}`}>
-            {isLimited ? "規制されています" : "規制されていません"}
+          <p
+            className={`${limitCheckResult.isLimited ? "text-red-500" : "text-gray-900"}`}
+          >
+            {limitCheckResult.isLimited
+              ? "規制されています"
+              : "規制されていません"}
           </p>
 
           <NowDate interval={1000}></NowDate>
 
           <div className="buttons mt-1">
-            <button
-              className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700 disabled:opacity-75"
+            <Button
+              className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700"
+              size="lg"
               disabled={token === ""}
               onClick={pullCheckins}
-              type="button"
             >
               履歴取得
-            </button>
+            </Button>
           </div>
         </div>
 
-        <div className="mb-5">
-          <h2 className="text-3xl font-semibold text-indigo-600">設定</h2>
+        <Tabs defaultValue="limits">
+          <TabsList>
+            <TabsTrigger value="limits">規制状況</TabsTrigger>
+            <TabsTrigger value="setting">設定</TabsTrigger>
+          </TabsList>
+          <TabsContent value="limits">
+            <LimitCheckResults
+              allLimitCheckResult={limitCheckResult}
+            ></LimitCheckResults>
+            <CheckinDetails
+              limitCheckResult={limitCheckResult}
+            ></CheckinDetails>
+          </TabsContent>
+          <TabsContent value="setting">
+            <div className="mt-10 mb-5">
+              <h2 className="text-3xl font-semibold text-indigo-600">設定</h2>
 
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="price"
-          >
-            APIトークン
-          </label>
-          <div className="relative mt-1 rounded-md shadow-sm">
-            <input
-              className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
-              name="oauth-token"
-              onChange={event => setToken(event.target.value)}
-              placeholder="Token"
-              type="text"
-              value={token}
-            />
-          </div>
-        </div>
-
-        {limitCheckResult !== null && (
-          <LimitCheckResults
-            allLimitCheckResult={limitCheckResult}
-          ></LimitCheckResults>
-        )}
-        {limitCheckResult !== null && (
-          <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>
-        )}
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="price"
+              >
+                APIトークン
+              </label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <input
+                  className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
+                  name="oauth-token"
+                  onChange={event => setToken(event.target.value)}
+                  placeholder="Token"
+                  type="text"
+                  value={token}
+                />
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
