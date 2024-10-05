@@ -20,7 +20,7 @@ const CheckinHistory = (props: Props) => {
   );
 
   return (
-    <div className="mt-10 mb-5">
+    <div className="mb-5">
       <div className="sticky top-28 z-10 bg-white">
         <h3 className="text-2xl font-semibold text-indigo-400">{props.title}</h3>
         <p>チェックイン数: {targetCheckins.length}</p>
