@@ -2,11 +2,11 @@ import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CheckinHistories from "~/components/CheckinHistories";
+import CurrentTime from "~/components/CurrentTime";
 import CheckinDetails from "~/components/checkin-details";
 import LimitCheckResults from "~/components/limit-check-results";
-import NowDate from "~/components/now-date";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { checkAllLimits } from "~/lib/functions";
@@ -102,7 +102,7 @@ const Home: NextPage = () => {
               : "規制されていません"}
           </p>
 
-          <NowDate interval={1000}></NowDate>
+          <CurrentTime></CurrentTime>
 
           <div className="buttons mt-1">
             <Button
