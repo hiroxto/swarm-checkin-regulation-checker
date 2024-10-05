@@ -3,10 +3,10 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { date2String } from "../lib/functions";
-import type { LimitCheckResult } from "../types/app";
+import type { LimitCheckResult as LimitCheckResultType } from "../types/app";
 
 interface Props {
-  limitCheckResult: LimitCheckResult;
+  limitCheckResult: LimitCheckResultType;
 }
 
 const LimitCheckResult = (props: Props) => {
