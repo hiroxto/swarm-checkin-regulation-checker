@@ -56,17 +56,17 @@ export interface CheckinItem {
   id: string;
   createdAt: number;
   type: string; // "checkin"
-  entities?: [];
-  shout?: string;
+  // entities?: [];
+  // shout?: string;
   timeZoneOffset: number;
-  editableUntil?: number;
+  // editableUntil?: number;
   venue: Venue;
   // likes: {
   //   "count": 0,
   //   "groups": []
   // },
-  like: boolean;
-  isMayor: boolean;
+  // like: boolean;
+  // isMayor: boolean;
   // photos: {
   //   count: 0,
   //   items: []
