@@ -1,4 +1,5 @@
 import { add } from "date-fns";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { createdAt2Date, date2String, periodToDuration } from "~/lib/functions";
 import type { LimitCheckResult } from "~/types/app";
 
@@ -25,31 +26,31 @@ const CheckinDetail = ({ title, result }: Props) => {
         </p>
       </div>
 
-      <table className="min-w-full text-center border hover:table-fixed">
-        <thead className="border">
-          <tr className="border bg-gray-100">
-            <th className="border-r">Index</th>
-            <th className="border-r">チェックイン日時</th>
-            <th className="border-r">場所</th>
-            <th className="border-r">規制解除日時</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className="min-w-full border">
+        <TableHeader className="border">
+          <TableRow className="border bg-gray-100">
+            <TableHead className="p-1 leading-1 border-r w-0">No.</TableHead>
+            <TableHead className="p-1 leading-1 border-r">チェックイン日時</TableHead>
+            <TableHead className="p-1 leading-1 border-r">ベニュー名</TableHead>
+            <TableHead className="p-1 leading-1 border-r">規制解除日時</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {result.checkins.map((checkin, checkinIndex) => (
-            <tr
+            <TableRow
+              key={checkin.id}
               className={
                 isLimited(checkinIndex + 1) ? "bg-red-100 hover:bg-red-200 border" : "hover:bg-gray-100 border"
               }
-              key={checkin.id}
             >
-              <th className="border-r">{checkinIndex + 1}</th>
-              <th className="border-r">{date2String(createdAt2Date(checkin.createdAt))}</th>
-              <th className="border-r">{checkin.venue.name}</th>
-              <th className="border-r">{computeLimitDay(checkin.createdAt)}</th>
-            </tr>
+              <TableCell className="p-1 leading-1 border-r">{checkinIndex + 1}</TableCell>
+              <TableCell className="p-1 leading-1 border-r">{date2String(createdAt2Date(checkin.createdAt))}</TableCell>
+              <TableCell className="p-1 leading-1 border-r">{checkin.venue.name}</TableCell>
+              <TableCell className="p-1 leading-1 border-r">{computeLimitDay(checkin.createdAt)}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };
