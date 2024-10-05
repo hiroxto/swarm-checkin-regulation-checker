@@ -17,9 +17,6 @@ dependencies:
   date-fns-tz:
     specifier: ^3.2.0
     version: 3.2.0(date-fns@4.1.0)
-  dayjs:
-    specifier: ^1.11.6
-    version: 1.11.13
   next:
     specifier: 14.2.10
     version: 14.2.10(react-dom@18.3.1)(react@18.3.1)
@@ -1393,10 +1390,6 @@ packages:
 
   /date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
-    dev: false
-
-  /dayjs@1.11.13:
-    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
     dev: false
 
   /debug@3.2.7:
