@@ -39,14 +39,12 @@ const Home: NextPage = () => {
       .get(ENDPOINT, { params })
       .then((response) => {
         if (response.status !== 200) {
-          console.log(response);
           throw new Error("APIコールでエラー");
         }
 
         return response.data.response.checkins.items;
       })
       .catch((e) => {
-        console.log(e);
         alert(e);
       });
   };
@@ -70,8 +68,6 @@ const Home: NextPage = () => {
       setToken(String(router.query.token));
       setViaQuery.current = true;
     }
-
-    console.log(checkins);
 
     const id = setInterval(() => {
       checkLimits();
