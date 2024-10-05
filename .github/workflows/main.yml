@@ -147,6 +147,10 @@ jobs:
           version: 8
           run_install: false
 
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
       - name: Restore cache pnpm store
         uses: actions/cache/restore@v4
         env:
