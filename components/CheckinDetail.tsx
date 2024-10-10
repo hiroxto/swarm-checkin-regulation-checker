@@ -18,7 +18,7 @@ const CheckinDetail = ({ title, result }: Props) => {
 
   return (
     <div className="mb-5">
-      <div className="sticky top-28 z-10 bg-white">
+      <div>
         <h3 className="text-2xl font-semibold text-indigo-400">{title}</h3>
         <p>チェックイン数: {result.checkins.length}</p>
         <p className="mb-2">
