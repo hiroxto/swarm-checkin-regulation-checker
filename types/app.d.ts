@@ -16,11 +16,11 @@ export interface LimitCheckResult {
 }
 
 export interface CheckinLimits {
-  m2: NewLimitCheckResult;
-  m15: NewLimitCheckResult;
-  d1: NewLimitCheckResult;
-  d3: NewLimitCheckResult;
-  d3d1: NewLimitCheckResult;
+  m2: LimitCheckResult;
+  m15: LimitCheckResult;
+  d1: LimitCheckResult;
+  d3: LimitCheckResult;
+  d3d1: LimitCheckResult;
 }
 
 export interface AllLimitCheckResult {
