@@ -27,3 +27,5 @@ export interface AllLimitCheckResult {
   limits: CheckinLimits;
   isLimited: boolean;
 }
+
+export type ResultKeys = (keyof CheckinLimits)[];

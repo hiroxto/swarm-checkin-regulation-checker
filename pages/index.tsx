@@ -9,12 +9,14 @@ import CurrentTime from "~/components/CurrentTime";
 import LimitCheckResults from "~/components/limit-check-results";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { RESULT_KEYS } from "~/lib/consts";
 import { checkAllLimits } from "~/lib/functions";
 import type { AllLimitCheckResult } from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
 
 const Home: NextPage = () => {
   const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";
+
   const router = useRouter();
   const setViaQuery = useRef(false);
   const [token, setToken] = useState<string>("");
@@ -110,8 +112,8 @@ const Home: NextPage = () => {
             <TabsTrigger value="setting">設定</TabsTrigger>
           </TabsList>
           <TabsContent value="limits">
-            <LimitCheckResults allLimitCheckResult={limitCheckResult}></LimitCheckResults>
-            <CheckinDetails limitCheckResult={limitCheckResult}></CheckinDetails>
+            <LimitCheckResults limitCheckResult={limitCheckResult} resultKeys={RESULT_KEYS}></LimitCheckResults>
+            <CheckinDetails limitCheckResult={limitCheckResult} resultKeys={RESULT_KEYS}></CheckinDetails>
           </TabsContent>
           <TabsContent value="history">
             <CheckinHistories checkins={checkins} now={new Date()}></CheckinHistories>

@@ -21,7 +21,7 @@ const CheckinDetail = ({ title, result }: Props) => {
       <div>
         <h3 className="text-2xl font-semibold text-indigo-400">{title}</h3>
         <p>チェックイン数: {result.checkins.length}</p>
-        <p className="mb-2">
+        <p className="mb-2" suppressHydrationWarning={true}>
           期間: {date2String(result.period.from)} から {date2String(result.period.to)} まで
         </p>
       </div>
