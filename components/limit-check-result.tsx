@@ -26,10 +26,10 @@ const LimitCheckResult = (props: Props) => {
       <div className={`ml-16 text-base ${textColor}`}>
         対象チェックイン回数: {props.limitCheckResult.checkins.length}
       </div>
-      <div className={`ml-16 text-base ${textColor}`}>
+      <div className={`ml-16 text-base ${textColor}`} suppressHydrationWarning={true}>
         対象チェックイン期間: {date2String(props.limitCheckResult.period.from)}
       </div>
-      <div className={`ml-16 text-base ${textColor}`}>
+      <div className={`ml-16 text-base ${textColor}`} suppressHydrationWarning={true}>
         規制解除:{" "}
         {props.limitCheckResult.unLimitingAt == null ? "N/A" : date2String(props.limitCheckResult.unLimitingAt)}
       </div>
