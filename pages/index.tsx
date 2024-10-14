@@ -10,7 +10,7 @@ import LimitCheckResults from "~/components/limit-check-results";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { RESULT_KEYS } from "~/lib/consts";
-import { checkAllLimits } from "~/lib/functions";
+import { checkAllLimits, date2String } from "~/lib/functions";
 import type { AllLimitCheckResult } from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
 
@@ -89,6 +89,9 @@ const Home: NextPage = () => {
         <div className="sticky top-0 z-30 bg-white pb-3">
           <p className={`${limitCheckResult.isLimited ? "text-red-500" : "text-gray-900"}`}>
             {limitCheckResult.isLimited ? "規制されています" : "規制されていません"}
+          </p>
+          <p className={`${limitCheckResult.isLimited ? "text-red-500" : "text-gray-900"}`}>
+            規制解除日時: {limitCheckResult.unLimitingAts == null ? "N/A" : date2String(limitCheckResult.unLimitingAts)}
           </p>
 
           <CurrentTime></CurrentTime>
