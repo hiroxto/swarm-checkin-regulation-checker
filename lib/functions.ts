@@ -1,4 +1,4 @@
-import { add, isAfter, sub } from "date-fns";
+import { add, differenceInMilliseconds, isAfter, isBefore, sub } from "date-fns";
 import { format } from "date-fns-tz";
 import type { Duration } from "date-fns/types";
 import type { AllLimitCheckResult, LimitCheckResult, PeriodUnit } from "~/types/app";
@@ -67,6 +67,13 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
   const d3d1 = checkLimits(checkins, now, 30, 1, "days");
 
   const isLimited = [m2.isLimited, m15.isLimited, d1.isLimited, d3.isLimited && d3d1.isLimited].some(v => v);
+  const unLimitingAts = [
+    m2.unLimitingAt,
+    m15.unLimitingAt,
+    d1.unLimitingAt,
+    // d3とd3d1のunLimitingAtのうち，近い方の日付を使う
+    getClosestDate(now, d3.unLimitingAt, d3d1.unLimitingAt),
+  ].filter(v => !!v);
 
   return {
     limits: {
@@ -77,5 +84,54 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
       d3d1,
     },
     isLimited,
+    unLimitingAts: getMostFurthestDate(unLimitingAts, now),
   };
+};
+
+/**
+ * 現在日時から近い方の日付を返す
+ */
+export const getClosestDate = (now: Date, a: Date | null, b: Date | null): Date | null => {
+  // 両方がnullの場合は null を返す
+  if (!a && !b) {
+    return null;
+  }
+
+  // 片方のみ null の場合もう片方を返す
+  if (!a) {
+    return b;
+  }
+  if (!b) {
+    return a;
+  }
+
+  // aが現在日時に近いか
+  const isAisCloser = isBefore(a, b) ? isAfter(a, now) : isAfter(b, now);
+
+  return isAisCloser ? a : b;
+};
+
+/**
+ * 現在日時から最も遠い日時を返す
+ */
+export const getMostFurthestDate = (dates: Date[], now: Date): Date | null => {
+  // 日付がない場合は null を返す
+  if (dates.length === 0) {
+    return null;
+  }
+
+  // 最も遠い日時を探す
+  let furthestDate = dates[0];
+  let maxDifference = Math.abs(differenceInMilliseconds(furthestDate, now));
+
+  for (const date of dates) {
+    const diff = Math.abs(differenceInMilliseconds(date, now));
+
+    if (diff > maxDifference) {
+      maxDifference = diff;
+      furthestDate = date;
+    }
+  }
+
+  return furthestDate;
 };

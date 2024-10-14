@@ -26,6 +26,7 @@ export interface CheckinLimits {
 export interface AllLimitCheckResult {
   limits: CheckinLimits;
   isLimited: boolean;
+  unLimitingAts: Date | null;
 }
 
 export type ResultKeys = (keyof CheckinLimits)[];
