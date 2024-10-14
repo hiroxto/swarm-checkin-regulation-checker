@@ -71,8 +71,10 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
     m2.unLimitingAt,
     m15.unLimitingAt,
     d1.unLimitingAt,
-    // d3とd3d1のunLimitingAtのうち，近い方の日付を使う
-    getClosestDate(now, d3.unLimitingAt, d3d1.unLimitingAt),
+    // d3とd3d1の両方が規制されている場合は現在日時から近い方を採用し，それ以外の場合は null にする
+    d3.unLimitingAt != null && d3d1.unLimitingAt != null
+      ? getClosestDate(now, d3.unLimitingAt, d3d1.unLimitingAt)
+      : null,
   ].filter(v => !!v);
 
   return {
@@ -91,20 +93,7 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
 /**
  * 現在日時から近い方の日付を返す
  */
-export const getClosestDate = (now: Date, a: Date | null, b: Date | null): Date | null => {
-  // 両方がnullの場合は null を返す
-  if (!a && !b) {
-    return null;
-  }
-
-  // 片方のみ null の場合もう片方を返す
-  if (!a) {
-    return b;
-  }
-  if (!b) {
-    return a;
-  }
-
+export const getClosestDate = (now: Date, a: Date, b: Date): Date => {
   // aが現在日時に近いか
   const isAisCloser = isBefore(a, b) ? isAfter(a, now) : isAfter(b, now);
 
