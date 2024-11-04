@@ -91,13 +91,13 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
 };
 
 /**
- * 現在日時から近い方の日付を返す
+ * 現在日時から最も近い日時を返す
  */
 export const getClosestDate = (now: Date, a: Date, b: Date): Date => {
-  // aが現在日時に近いか
-  const isAisCloser = isAfter(a, b) ? isBefore(a, now) : isBefore(b, now);
+  const diffA = Math.abs(differenceInMilliseconds(a, now));
+  const diffB = Math.abs(differenceInMilliseconds(b, now));
 
-  return isAisCloser ? a : b;
+  return diffA <= diffB ? a : b;
 };
 
 /**
