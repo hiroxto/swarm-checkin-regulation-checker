@@ -95,7 +95,7 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
  */
 export const getClosestDate = (now: Date, a: Date, b: Date): Date => {
   // aが現在日時に近いか
-  const isAisCloser = isBefore(a, b) ? isAfter(a, now) : isAfter(b, now);
+  const isAisCloser = isAfter(a, b) ? isBefore(a, now) : isBefore(b, now);
 
   return isAisCloser ? a : b;
 };
