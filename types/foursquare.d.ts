@@ -93,7 +93,7 @@ export interface CheckinResponse {
   checkins: Checkins;
 }
 
-export interface Response {
+export interface CheckinResponseBody {
   meta: Meta;
   notifications: Notification[];
   response: CheckinResponse;
