@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const foursquareAtom = atom({ token: "" });
+export const tokenAtom = atom<string>("");

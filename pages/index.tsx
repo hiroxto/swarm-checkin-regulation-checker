@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { foursquareAtom } from "~/atoms/FoursquareAtom";
+import { tokenAtom } from "~/atoms/FoursquareAtom";
 import CheckinDetails from "~/components/CheckinDetails";
 import CheckinHistories from "~/components/CheckinHistories";
 import CurrentTime from "~/components/CurrentTime";
@@ -19,13 +19,13 @@ import type { CheckinItem } from "~/types/foursquare";
 const Home: NextPage = () => {
   const router = useRouter();
   const setViaQuery = useRef(false);
-  const [foursquare, setFoursquare] = useAtom(foursquareAtom);
+  const [token, setToken] = useAtom(tokenAtom);
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult>(checkAllLimits([], new Date()));
 
   const pullCheckins = async () => {
     try {
-      const client = new FoursquareClient(foursquare.token);
+      const client = new FoursquareClient(token);
       const checkins = await client.getSelfCheckins();
       setCheckins(checkins);
     } catch (e) {
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
     }
 
     if (!setViaQuery.current && router.query?.token) {
-      setFoursquare({ token: String(router.query.token) });
+      setToken(String(router.query.token));
       setViaQuery.current = true;
     }
 
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
     }, 1000);
 
     return () => clearInterval(id);
-  }, [router, checkLimits, setFoursquare]);
+  }, [router, checkLimits, setToken]);
 
   return (
     <div className="bg-white px-5 py-5">
@@ -84,7 +84,7 @@ const Home: NextPage = () => {
             <Button
               className="rounded-md border border-transparent bg-indigo-600 px-2 py-2 text-base text-white hover:bg-indigo-700"
               size="lg"
-              disabled={foursquare.token === ""}
+              disabled={token === ""}
               onClick={pullCheckins}
             >
               履歴取得
@@ -116,10 +116,10 @@ const Home: NextPage = () => {
                 <input
                   className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
                   name="oauth-token"
-                  onChange={event => setFoursquare({ token: event.target.value })}
+                  onChange={event => setToken(event.target.value)}
                   placeholder="Token"
                   type="text"
-                  value={foursquare.token}
+                  value={token}
                 />
               </div>
             </div>
