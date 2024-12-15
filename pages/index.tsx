@@ -1,4 +1,3 @@
-import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -11,43 +10,26 @@ import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { RESULT_KEYS } from "~/lib/consts";
 import { checkAllLimits, date2String } from "~/lib/functions";
+import { FoursquareClient } from "~/lib/infra/foursquare";
 import type { AllLimitCheckResult } from "~/types/app";
 import type { CheckinItem } from "~/types/foursquare";
 
 const Home: NextPage = () => {
-  const ENDPOINT = "https://api.foursquare.com/v2/users/self/checkins";
-
   const router = useRouter();
   const setViaQuery = useRef(false);
   const [token, setToken] = useState<string>("");
   const [checkins, setCheckins] = useState<CheckinItem[]>([]);
   const [limitCheckResult, setLimitCheckResult] = useState<AllLimitCheckResult>(checkAllLimits([], new Date()));
 
-  const getCheckins = (): Promise<CheckinItem[]> => {
-    const params = {
-      oauth_token: token,
-      limit: 200,
-      v: "20221016",
-      lang: "ja",
-    };
-
-    return axios
-      .get(ENDPOINT, { params })
-      .then(response => {
-        if (response.status !== 200) {
-          throw new Error("APIコールでエラー");
-        }
-
-        return response.data.response.checkins.items;
-      })
-      .catch(e => {
-        alert(e);
-      });
-  };
-
   const pullCheckins = async () => {
-    const checkins = await getCheckins();
-    setCheckins(checkins);
+    try {
+      const client = new FoursquareClient(token);
+      const checkins = await client.getSelfCheckins();
+      setCheckins(checkins);
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    }
   };
   const checkLimits = useCallback(() => {
     const result = checkAllLimits(checkins, new Date());
