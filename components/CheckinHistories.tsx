@@ -59,22 +59,24 @@ const CheckinHistories = ({ checkins, now }: Props) => {
       <h2 className="text-3xl font-semibold text-indigo-600">チェックイン履歴</h2>
 
       <Accordion type="multiple" defaultValue={defaultValue}>
-        {targets.map(target => (
-          <AccordionItem value={target.key} key={target.key}>
-            <AccordionTrigger>
-              {target.title} ({target.checkins.length}件)
-            </AccordionTrigger>
-            <AccordionContent>
-              <CheckinHistory
-                title={target.title}
-                now={now}
-                checkins={target.checkins}
-                periodFrom={target.periodFrom}
-                periodTo={target.periodTo}
-              ></CheckinHistory>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {targets.map(target => (
+            <AccordionItem value={target.key} key={target.key}>
+              <AccordionTrigger>
+                {target.title} ({target.checkins.length}件)
+              </AccordionTrigger>
+              <AccordionContent>
+                <CheckinHistory
+                  title={target.title}
+                  now={now}
+                  checkins={target.checkins}
+                  periodFrom={target.periodFrom}
+                  periodTo={target.periodTo}
+                ></CheckinHistory>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </div>
       </Accordion>
     </div>
   );
