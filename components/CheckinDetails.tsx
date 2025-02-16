@@ -14,19 +14,21 @@ const CheckinDetails = ({ limitCheckResult, resultKeys }: Props) => {
       <h2 className="text-3xl font-semibold text-indigo-600">チェックイン詳細</h2>
 
       <Accordion type="multiple" defaultValue={resultKeys}>
-        {resultKeys.map(resultKey => (
-          <AccordionItem value={resultKey} key={resultKey}>
-            <AccordionTrigger>
-              {CHECKIN_LIMIT_TITLES[resultKey]} ({limitCheckResult.limits[resultKey].checkins.length}件)
-            </AccordionTrigger>
-            <AccordionContent>
-              <CheckinDetail
-                title={CHECKIN_LIMIT_TITLES[resultKey]}
-                result={limitCheckResult.limits[resultKey]}
-              ></CheckinDetail>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {resultKeys.map(resultKey => (
+            <AccordionItem value={resultKey} key={resultKey}>
+              <AccordionTrigger>
+                {CHECKIN_LIMIT_TITLES[resultKey]} ({limitCheckResult.limits[resultKey].checkins.length}件)
+              </AccordionTrigger>
+              <AccordionContent>
+                <CheckinDetail
+                  title={CHECKIN_LIMIT_TITLES[resultKey]}
+                  result={limitCheckResult.limits[resultKey]}
+                ></CheckinDetail>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </div>
       </Accordion>
     </div>
   );
