@@ -19,8 +19,6 @@ export interface CheckinLimits {
   m2: LimitCheckResult;
   m15: LimitCheckResult;
   d1: LimitCheckResult;
-  d3: LimitCheckResult;
-  d3d1: LimitCheckResult;
 }
 
 export interface AllLimitCheckResult {

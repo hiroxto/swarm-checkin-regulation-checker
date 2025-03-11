@@ -63,27 +63,15 @@ export const checkAllLimits = (checkins: CheckinItem[], now: Date): AllLimitChec
   const m2 = checkLimits(checkins, now, 5, 2, "minutes");
   const m15 = checkLimits(checkins, now, 8, 15, "minutes");
   const d1 = checkLimits(checkins, now, 50, 1, "days");
-  const d3 = checkLimits(checkins, now, 90, 3, "days");
-  const d3d1 = checkLimits(checkins, now, 30, 1, "days");
 
-  const isLimited = [m2.isLimited, m15.isLimited, d1.isLimited, d3.isLimited && d3d1.isLimited].some(v => v);
-  const unLimitingAts = [
-    m2.unLimitingAt,
-    m15.unLimitingAt,
-    d1.unLimitingAt,
-    // d3とd3d1の両方が規制されている場合は現在日時から近い方を採用し，それ以外の場合は null にする
-    d3.unLimitingAt != null && d3d1.unLimitingAt != null
-      ? getClosestDate(now, d3.unLimitingAt, d3d1.unLimitingAt)
-      : null,
-  ].filter(v => !!v);
+  const isLimited = [m2.isLimited, m15.isLimited, d1.isLimited].some(v => v);
+  const unLimitingAts = [m2.unLimitingAt, m15.unLimitingAt, d1.unLimitingAt].filter(v => !!v);
 
   return {
     limits: {
       m2,
       m15,
       d1,
-      d3,
-      d3d1,
     },
     isLimited,
     unLimitingAts: getMostFurthestDate(unLimitingAts, now),
